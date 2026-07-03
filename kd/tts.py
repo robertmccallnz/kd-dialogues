@@ -38,10 +38,21 @@ def synth_line(text: str, voice: str, out_path: Path) -> Path:
     if _asi_available():
         payload = {"file_path": str(txt_path), "voice": voice}
         subprocess.check_call(["asi-text-to-speech", json.dumps(payload)])
-        generated = txt_path.with_suffix(".mp3")
-        if generated.exists() and generated != out_path:
-            generated.rename(out_path)
-        return out_path
+        # asi-text-to-speech may write the mp3 either next to the .txt or
+        # in the sandbox workspace root (its behaviour has shifted between
+        # sandbox versions). Try both locations before giving up.
+        candidates = [
+            txt_path.with_suffix(".mp3"),
+            Path("/home/user/workspace") / f"{txt_path.stem}.mp3",
+        ]
+        for gen in candidates:
+            if gen.exists():
+                if gen != out_path:
+                    gen.rename(out_path)
+                return out_path
+        raise RuntimeError(
+            f"asi-text-to-speech ran but no mp3 found at any of {candidates}"
+        )
 
     if os.environ.get("KD_TTS_ALLOW_SILENCE") == "1":
         subprocess.check_call([

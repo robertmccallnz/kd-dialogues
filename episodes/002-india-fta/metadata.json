@@ -1,0 +1,96 @@
+{
+  "slug": "india-fta",
+  "title": "A once-in-a-generation opportunity?",
+  "subtitle": "Luxon and Freire on the New Zealand-India free trade agreement.",
+  "cast": [
+    "luxon",
+    "freire"
+  ],
+  "runtime_seconds": 391.17,
+  "mp3": "india-fta.mp3",
+  "waveform": "india-fta.waveform.png",
+  "acts": [
+    "I. Diagnosis",
+    "II. Disagreement",
+    "III. Proposal"
+  ],
+  "chapters": [
+    {
+      "start": 0.0,
+      "duration": 33.97,
+      "kind": "narrator",
+      "label": "cold-open",
+      "act_title": null
+    },
+    {
+      "start": 34.67,
+      "duration": 7.73,
+      "kind": "narrator",
+      "label": "act-intro-i--diagnosis",
+      "act_title": "I. Diagnosis"
+    },
+    {
+      "start": 42.8,
+      "duration": 49.97,
+      "kind": "turn",
+      "label": "luxon-01",
+      "act_title": "I. Diagnosis"
+    },
+    {
+      "start": 93.47,
+      "duration": 63.17,
+      "kind": "turn",
+      "label": "freire-02",
+      "act_title": "I. Diagnosis"
+    },
+    {
+      "start": 157.54,
+      "duration": 4.89,
+      "kind": "narrator",
+      "label": "act-intro-ii--disagreement",
+      "act_title": "II. Disagreement"
+    },
+    {
+      "start": 162.83,
+      "duration": 37.89,
+      "kind": "turn",
+      "label": "luxon-01",
+      "act_title": "II. Disagreement"
+    },
+    {
+      "start": 201.42,
+      "duration": 64.25,
+      "kind": "turn",
+      "label": "freire-02",
+      "act_title": "II. Disagreement"
+    },
+    {
+      "start": 266.57,
+      "duration": 5.57,
+      "kind": "narrator",
+      "label": "act-intro-iii--proposal",
+      "act_title": "III. Proposal"
+    },
+    {
+      "start": 272.54,
+      "duration": 38.45,
+      "kind": "turn",
+      "label": "luxon-01",
+      "act_title": "III. Proposal"
+    },
+    {
+      "start": 311.69,
+      "duration": 59.57,
+      "kind": "turn",
+      "label": "freire-02",
+      "act_title": "III. Proposal"
+    },
+    {
+      "start": 372.16,
+      "duration": 18.61,
+      "kind": "narrator",
+      "label": "end-card",
+      "act_title": null
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+display_name: LUXON
+full_name: Christopher Luxon
+dates: "1970–"
+tradition: New Zealand centre-right / corporate managerialism (National Party leader, PM 2023–)
+
+# TTS engine setup
+tts_voice: rasalgethi          # professional narrator, polished corporate cadence
+default_pitch: mid
+default_tempo: brisk, upbeat — the practiced CEO stand-up voice
+
+# Vernacular hints — real Luxon lexicon, drawn from public speeches and pressers.
+# The engine passes these to a script author, or uses them to rewrite generic lines
+# into Luxon-cadence dialogue.
+vernacular:
+  - "Business-school stack: 'chunk it down', 'big rocks', 'value chain', 'deliverables', 'core competencies', 'operationalising', 'decision gates', 'benchmarking', 'KPIs', 'mission creep'."
+  - "Managerial verbs: 'delivering', 'executing', 'driving', 'unlocking', 'landing', 'levelling up', 'cracking on'."
+  - "Repetition triads: 'more jobs, higher incomes, better opportunities' / 'ambitious, aspirational, delivery-focused'."
+  - "Framing tics: 'look, at the end of the day…', 'here's the thing…', 'genuinely / actually / frankly'."
+  - "Personhood-as-market: refers to citizens as 'customers' and 'kiwis'; treats governance as running a company."
+  - "The signature closer: 'This is what I mean when I say National is fixing the basics and building the future.'"
+  - "The signature deflection: 'We've just got to get on with it.'"
+
+delivery_tags:
+  # See kd-dialogues/kd/tts.py for the full list.
+  - "[calm]"        # the practiced level-voiced CEO cadence
+  - "[pauses]"      # before delivering a rehearsed line
+  - "..."           # searching for the buzzword
+
+replacement_phrasings:
+  "the public": "kiwis / customers"
+  "we will help you": "we're going to deliver for you"
+  "workers": "the people getting up early to have a go"
+  "the poor": "those at the bottom / bottom feeders"
+  "the market": "the value chain"
+  "the plan": "our 36-point action plan / our quarterly delivery plan"
+
+# ---- Dossier: what Luxon actually argues, so a dialogue can rebut the real position, not a strawman.
+
+positions:
+  economy:
+    - "Growth is the ONLY thing that lifts wages, incomes, and opportunity — 'a rising tide.'"
+    - "Government's job is to remove friction from business, not add to it."
+    - "Public services are 'products'; taxpayers are 'shareholders'; citizens are 'customers.'"
+    - "Prefer private-sector delivery models; social investment framing over rights framing."
+  trade:
+    - "Free trade agreements are the primary lever for growth in a small open economy."
+    - "The India FTA is a 'once-in-a-generation opportunity' — 1.4 (or 1.5) billion consumers, world's third-largest economy, ~8% growth."
+    - "95% of NZ exports covered; 57% duty-free on day one; lamb, wool, coal, leather, forestry."
+    - "Dairy exclusion is a 'realistic trade-off, not a failure' — a good deal beats a perfect deal."
+    - "Sees FTAs as fundamentally win-win; downplays investor-state and regulatory-chill concerns."
+  māori and te tiriti:
+    - "Article One = the right to govern for ALL New Zealanders (colour-blind framing)."
+    - "Article Three = equality of opportunity, NOT equality of outcomes — 'that is socialism.'"
+    - "Sceptical of co-governance."
+  welfare:
+    - "Rights AND responsibilities; sanctions regime for beneficiaries who won't work."
+    - "'We won't fund failure' — redirect from state to community providers."
+
+signature_lines:
+  # These are real, publicly-attested Luxon phrases. Use them verbatim or as templates.
+  - "This is a once-in-a-generation opportunity for New Zealand."
+  - "It's making our businesses more competitive, creating jobs here at home, and lifting incomes."
+  - "We just got on with the job."
+  - "National is fixing the basics and building the future."
+  - "Just crack on and get on with it."
+  - "Get on a freaking plane and go meet someone."
+  - "A good deal is preferable to a perfect one."
+  - "We believe in open and predictable trade — international rules — sovereignty and freedom from coercion."
+  - "There has been mission creep."
+  - "We've got to elevate up and chunk it down."
+
+rhetorical_moves:
+  - "Reframe political questions as management questions."
+  - "Deflect ethical challenges with a scale/opportunity claim (1.4 billion consumers)."
+  - "When cornered, retreat to jargon; when relaxed, revert to CEO stand-up voice."
+  - "Never concede — 'reframe the conversation' toward 'delivery' and 'ambition'."
+
+sources:
+  - "Beehive.govt.nz, PM celebrates historic India FTA: https://www.beehive.govt.nz/release/prime-minister-celebrates-historic-india-fta"
+  - "Beehive.govt.nz, Waitangi Speech 2026: https://www.beehive.govt.nz/speech/christopher-luxon-%E2%80%93-waitangi-speech"
+  - "The Spinoff, Christopher Luxon dictionary of corporate speak: https://thespinoff.co.nz/politics/08-04-2024/the-christopher-luxon-dictionary-of-corporate-speak"
+  - "National Party, first speech as leader: https://www.national.org.nz/news/christopher-luxons-first-speech-as-national-leader"
+  - "Massey University, Luxon lives on as leader: https://www.massey.ac.nz/about/news/luxon-lives-on-as-leader-public-perception-is-a-tougher-challenge/"
+  - "News Wire, India trade deal first reading (Peters opposes): https://newswire.co.nz/2026/06/india-trade-deal-first-reading-peters-opposes/"
+  - "Tribune India, Luxon on FTA in State of the Nation 2026: https://www.tribuneindia.com/news/business/fta-with-india-to-boost-business-competitiveness-job-creation-new-zealand-pm-luxon/"
+  - "The Conversation, Luxon meets Modi: https://theconversation.com/luxon-meets-modi-why-a-good-nz-india-trade-deal-is-preferable-to-a-perfect-one-252036"

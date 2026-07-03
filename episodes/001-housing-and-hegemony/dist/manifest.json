@@ -1,0 +1,26 @@
+{
+  "slug": "housing-and-hegemony",
+  "title": "Housing and the shape of the state",
+  "runtime_seconds": 209.67,
+  "surfaces": {
+    "substack": {
+      "mp3": "housing-and-hegemony.mp3",
+      "embed": "embed.substack.html",
+      "caption": "captions/substack.txt"
+    },
+    "x": {
+      "mp3": "housing-and-hegemony.mp3",
+      "waveform": "housing-and-hegemony.waveform.png",
+      "caption": "captions/x.txt"
+    },
+    "website": {
+      "mp3": "housing-and-hegemony.mp3",
+      "waveform": "housing-and-hegemony.waveform.png",
+      "embed": "embed.html"
+    },
+    "notes": {
+      "transcript": "transcript.md",
+      "caption": "captions/notes.txt"
+    }
+  }
+}

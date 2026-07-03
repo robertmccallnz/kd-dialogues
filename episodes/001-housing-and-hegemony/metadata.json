@@ -1,0 +1,96 @@
+{
+  "slug": "housing-and-hegemony",
+  "title": "Housing and the shape of the state",
+  "subtitle": "Gramsci and Kropotkin, on why rent has always been political.",
+  "cast": [
+    "gramsci",
+    "kropotkin"
+  ],
+  "runtime_seconds": 209.67,
+  "mp3": "housing-and-hegemony.mp3",
+  "waveform": "housing-and-hegemony.waveform.png",
+  "acts": [
+    "I. Diagnosis",
+    "II. Disagreement",
+    "III. Proposal"
+  ],
+  "chapters": [
+    {
+      "start": 0.0,
+      "duration": 23.05,
+      "kind": "narrator",
+      "label": "cold-open",
+      "act_title": null
+    },
+    {
+      "start": 23.75,
+      "duration": 5.21,
+      "kind": "narrator",
+      "label": "act-intro-i--diagnosis",
+      "act_title": "I. Diagnosis"
+    },
+    {
+      "start": 29.36,
+      "duration": 32.25,
+      "kind": "turn",
+      "label": "gramsci-01",
+      "act_title": "I. Diagnosis"
+    },
+    {
+      "start": 62.01,
+      "duration": 25.45,
+      "kind": "turn",
+      "label": "kropotkin-02",
+      "act_title": "I. Diagnosis"
+    },
+    {
+      "start": 88.36,
+      "duration": 2.65,
+      "kind": "narrator",
+      "label": "act-intro-ii--disagreement",
+      "act_title": "II. Disagreement"
+    },
+    {
+      "start": 91.41,
+      "duration": 25.85,
+      "kind": "turn",
+      "label": "gramsci-01",
+      "act_title": "II. Disagreement"
+    },
+    {
+      "start": 117.66,
+      "duration": 25.21,
+      "kind": "turn",
+      "label": "kropotkin-02",
+      "act_title": "II. Disagreement"
+    },
+    {
+      "start": 143.77,
+      "duration": 10.37,
+      "kind": "narrator",
+      "label": "act-intro-iii--proposal",
+      "act_title": "III. Proposal"
+    },
+    {
+      "start": 154.54,
+      "duration": 19.41,
+      "kind": "turn",
+      "label": "gramsci-01",
+      "act_title": "III. Proposal"
+    },
+    {
+      "start": 174.35,
+      "duration": 24.69,
+      "kind": "turn",
+      "label": "kropotkin-02",
+      "act_title": "III. Proposal"
+    },
+    {
+      "start": 199.94,
+      "duration": 9.33,
+      "kind": "narrator",
+      "label": "end-card",
+      "act_title": null
+    }
+  ]
+}
