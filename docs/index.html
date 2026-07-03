@@ -1,158 +1,550 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>kd-dialogues — catalogue</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    :root {
-      --paper: #f5ecd8;
-      --ink:   #1c1816;
-      --ochre: #b0762c;
-      --brick: #963c28;
-    }
-    html,body { background: var(--paper); color: var(--ink); margin: 0; }
-    body {
-      font-family: "Noto Serif", Georgia, serif;
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 5rem;
-      line-height: 1.55;
-    }
-    header h1 {
-      font-size: 2.4rem;
-      margin: 0 0 0.4rem;
-      letter-spacing: 0.02em;
-    }
-    header p.lede { margin: 0 0 2.5rem; font-style: italic; color: #4a4238; }
-    h2.section {
-      font-size: 1rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin: 2.4rem 0 0.6rem;
-      color: var(--brick);
-      border-bottom: 1px solid var(--ochre);
-      padding-bottom: 0.3rem;
-    }
-    .card {
-      border-top: 2px solid var(--ochre);
-      padding: 1.4rem 0 1.6rem;
-    }
-    .card h2 { margin: 0 0 0.2rem; font-size: 1.35rem; }
-    .card .subtitle { margin: 0 0 0.6rem; font-style: italic; color: #4a4238; }
-    .card .thinkers { margin: 0 0 0.2rem; font-size: 0.95rem; color: var(--brick); }
-    .card .runtime  { margin: 0 0 0.6rem; font-size: 0.85rem; color: #7a6f5c; }
-    .videos { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0 0 0.4rem; }
-    .video-link {
-      display: inline-block;
-      padding: 0.25rem 0.7rem;
-      background: var(--paper);
-      color: var(--ink);
-      text-decoration: none;
-      border: 1px solid var(--ink);
-      font-size: 0.85rem;
-    }
-    .video-link:hover { background: var(--ink); color: var(--paper); }
-    .card .path {
-      margin: 0.4rem 0 0;
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 0.78rem;
-      color: #7a6f5c;
-    }
-    details.sources { margin: 0.6rem 0 0.2rem; font-size: 0.9rem; }
-    details.sources summary { cursor: pointer; color: var(--brick); }
-    details.sources ul { margin: 0.4rem 0 0 1.2rem; padding: 0; }
-    details.sources a { color: var(--ink); }
-    .src-note { color: #4a4238; font-style: italic; }
-    footer { margin-top: 3rem; font-size: 0.85rem; color: #7a6f5c; }
-    footer a { color: var(--brick); }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kd-dialogues — audio dialogues from The Kiwi Dialectic</title>
+<meta name="description" content="Long-form audio dialogues. Six historical thinkers plus contemporary voices they'd argue with. Full transcripts, sources, and portraits. Made for The Kiwi Dialectic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap">
+<style>:root {
+  --bg: #0a0a0a;
+  --bg-2: #121212;
+  --bg-3: #1a1a1a;
+  --fg: #f4ecd8;
+  --muted: #9c8c5c;
+  --line: #2a2418;
+  --kōura: #e8a83a;
+  --red: #d7261e;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--kōura); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; display: block; }
+
+.shell { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* Nav */
+.site-nav {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(10,10,10,.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+.site-nav .row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.site-nav .brand {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .18em;
+  font-size: 20px;
+  color: var(--fg);
+}
+.site-nav .brand span { color: var(--kōura); }
+.site-nav .links a {
+  color: var(--fg);
+  font-size: 14px;
+  margin-left: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .12em;
+}
+.site-nav .links a:hover { color: var(--kōura); text-decoration: none; }
+
+/* Hero */
+.hero { padding: 70px 0 50px; border-bottom: 1px solid var(--line); }
+.hero .eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .22em;
+  color: var(--kōura);
+  font-size: 13px;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 84px);
+  letter-spacing: .02em;
+  line-height: .95;
+  margin: 0 0 20px;
+}
+.hero .kaupapa { max-width: 640px; opacity: .85; font-size: 18px; margin: 0 0 22px; }
+.hero .ctas a { margin-right: 10px; margin-top: 8px; }
+
+.btn {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .12em;
+  font-size: 14px;
+  padding: 10px 18px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  text-decoration: none;
+}
+.btn:hover { background: var(--fg); color: var(--bg); text-decoration: none; }
+.btn.kofi { border-color: var(--kōura); color: var(--kōura); }
+.btn.kofi:hover { background: var(--kōura); color: var(--bg); }
+.btn.red { border-color: var(--red); color: var(--red); }
+.btn.red:hover { background: var(--red); color: var(--fg); }
+
+/* Sections */
+section.block { padding: 56px 0; border-bottom: 1px solid var(--line); }
+section.block h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .02em;
+  font-size: 34px;
+  line-height: 1.05;
+  margin: 0 0 22px;
+}
+.section-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .22em;
+  color: var(--kōura);
+  font-size: 12px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+/* Episode card */
+.episode {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  padding: 26px;
+  margin: 0 0 22px;
+}
+.episode .meta-row {
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: baseline;
+  color: var(--muted);
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: .1em;
+  margin: 0 0 8px;
+}
+.episode .meta-row .runtime { margin-left: auto; }
+.episode h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .02em;
+  font-size: 26px;
+  line-height: 1.1;
+  margin: 0 0 4px;
+}
+.episode .subtitle { opacity: .8; font-size: 16px; margin: 0 0 18px; font-style: italic; }
+
+.thinker-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  margin: 0 0 20px;
+}
+.thinker-card {
+  display: flex; flex-direction: column;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  padding: 10px;
+}
+.thinker-card img,
+.thinker-card .portrait-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.thinker-card .portrait-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 11px; text-align: center;
+  letter-spacing: .1em; font-family: 'Bebas Neue', sans-serif;
+}
+.thinker-meta { padding: 10px 4px 4px; }
+.thinker-name {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .12em;
+  font-size: 16px;
+  margin: 0 0 4px;
+  color: var(--fg);
+}
+.thinker-dates {
+  color: var(--muted);
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  margin: 0 0 4px;
+  letter-spacing: .05em;
+}
+.thinker-tradition {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.episode img.waveform {
+  width: 100%; display: block;
+  background: #f5ecd8;
+  border: 1px solid var(--line);
+  margin: 4px 0 10px;
+}
+.episode audio { width: 100%; margin: 4px 0 12px; }
+
+.episode .links { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 6px; }
+.episode .links a {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-size: 12px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .12em;
+}
+.episode .links a:hover { background: var(--fg); color: var(--bg); text-decoration: none; }
+
+.episode .acts {
+  margin: 12px 0 4px;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: ui-monospace, monospace;
+}
+.episode .acts li { margin: 3px 0; }
+.episode .acts li::before { content: "› "; color: var(--kōura); }
+
+details.sources { margin: 14px 0 4px; font-size: 14px; }
+details.sources summary {
+  cursor: pointer;
+  color: var(--kōura);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .12em;
+  font-size: 13px;
+}
+details.sources ul { margin: 10px 0 0 1.2rem; padding: 0; color: var(--fg); }
+details.sources a { color: var(--kōura); }
+details.sources .src-note { color: var(--muted); font-style: italic; }
+
+.episode .path {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+}
+
+/* Roster grid */
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+}
+
+/* Footer */
+footer.site-footer {
+  padding: 50px 0 40px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-2);
+  margin-top: 30px;
+}
+.site-footer .row {
+  display: flex; flex-wrap: wrap; gap: 30px;
+  justify-content: space-between; align-items: flex-start;
+}
+.site-footer h4 {
+  color: var(--fg);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: .18em;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+.site-footer a { color: var(--muted); display: block; margin: 4px 0; }
+.site-footer a:hover { color: var(--kōura); text-decoration: none; }
+.site-footer .copy { color: var(--muted); font-size: 13px; margin-top: 30px; opacity: .75; }
+
+@media (max-width: 700px) {
+  .hero { padding: 50px 0 40px; }
+  section.block { padding: 40px 0; }
+  .site-nav .links a { margin-left: 10px; font-size: 12px; }
+  .thinker-strip { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+}</style>
 </head>
 <body>
-  <header>
-    <h1>kd-dialogues</h1>
-    <p class="lede">A writing-room engine for political dialogues. Audio episodes, video dialogues, and the thinker roster that voices them.</p>
-  </header>
 
-  <main>
-    <h2 class="section">Audio Episodes</h2>
-<article class="card">
-  <h2>Housing and the shape of the state</h2>
-  <p class="subtitle">Gramsci and Kropotkin, on why rent has always been political.</p>
-  <p class="thinkers">Gramsci · Kropotkin</p>
-  <p class="runtime">3:30 · 11 chapters</p>
-  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
-    <source src="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" type="audio/mpeg">
-    Your browser cannot play this audio.
-    <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">Download the mp3</a>.
-  </audio>
-  <div class="videos">
-    <a class="video-link" href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">MP3</a>
-    <a class="video-link" href="../episodes/001-housing-and-hegemony/transcript.md">Transcript</a>
-    <a class="video-link" href="../episodes/001-housing-and-hegemony/housing-and-hegemony.waveform.png">Waveform</a>
+<nav class="site-nav">
+  <div class="shell row">
+    <a href="./" class="brand">KD <span>DIALOGUES</span></a>
+    <div class="links">
+      <a href="#episodes">Episodes</a>
+      <a href="#roster">Roster</a>
+      <a href="https://robertmccallnz.github.io/six-thinkers/">Six Thinkers ↗</a>
+      <a href="https://kiwidialectic.substack.com">Substack ↗</a>
+    </div>
   </div>
-  
-  <p class="path">episodes/001-housing-and-hegemony/</p>
-</article>
+</nav>
 
-<article class="card">
-  <h2>A once-in-a-generation opportunity?</h2>
-  <p class="subtitle">Luxon and Freire on the New Zealand-India free trade agreement.</p>
-  <p class="thinkers">Luxon · Freire</p>
-  <p class="runtime">6:54 · 8 chapters</p>
-  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
-    <source src="../episodes/002-india-fta/india-fta.mp3" type="audio/mpeg">
-    Your browser cannot play this audio.
-    <a href="../episodes/002-india-fta/india-fta.mp3">Download the mp3</a>.
-  </audio>
-  <div class="videos">
-    <a class="video-link" href="../episodes/002-india-fta/india-fta.mp3">MP3</a>
-    <a class="video-link" href="../episodes/002-india-fta/transcript.md">Transcript</a>
-    <a class="video-link" href="../episodes/002-india-fta/india-fta.waveform.png">Waveform</a>
+<header class="hero">
+  <div class="shell">
+    <p class="eyebrow">Round Two · Audio · The Kiwi Dialectic</p>
+    <h1>The Dialogues.<br>Two voices at a time.<br>No music. No ads.</h1>
+    <p class="kaupapa">Historical thinkers refitted for the algorithmic century, put in a room with the contemporary voices they'd argue with. Full transcripts, sources, and portraits — CC BY-SA 4.0.</p>
+    <div class="ctas">
+      <a class="btn kofi" href="https://ko-fi.com/thekiwidialectic" target="_blank" rel="noopener">☕ Koha via Ko-fi</a>
+      <a class="btn" href="https://kiwidialectic.substack.com" target="_blank" rel="noopener">Subscribe on Substack →</a>
+      <a class="btn" href="https://github.com/robertmccallnz/kd-dialogues" target="_blank" rel="noopener">Source on GitHub</a>
+    </div>
   </div>
-  <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.mfat.govt.nz/en/trade/free-trade-agreements/india">MFAT — New Zealand–India Comprehensive Economic Partnership Agreement</a> <span class="src-note">— signed 27 April 2026, New Delhi</span></li><li><a href="https://bills.parliament.nz">NZ Parliament — first reading Hansard</a> <span class="src-note">— 25 June 2026, 93 to 29</span></li><li>Paulo Freire, Pedagogy of the Oppressed (1968) <span class="src-note">— chapters 2 and 3 — banking vs. dialogical education</span></li><li><a href="https://kiwidialectic.substack.com">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
-  <p class="path">episodes/002-india-fta/</p>
-</article>
+</header>
 
-<article class="card">
-  <h2>The boogeyman with the DeLorean</h2>
-  <p class="subtitle">Novelly and Bakunin on nuclear-free New Zealand.</p>
-  <p class="thinkers">Novelly · Bakunin</p>
-  <p class="runtime">7:45 · 8 chapters</p>
-  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
-    <source src="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" type="audio/mpeg">
-    Your browser cannot play this audio.
-    <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">Download the mp3</a>.
-  </audio>
-  <div class="videos">
-    <a class="video-link" href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">MP3</a>
-    <a class="video-link" href="../episodes/003-nuclear-boogeyman/transcript.md">Transcript</a>
-    <a class="video-link" href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.waveform.png">Waveform</a>
+<section class="block" id="episodes">
+  <div class="shell">
+    <p class="section-eyebrow">Audio Episodes</p>
+    <h2>Every dialogue lives here.</h2>
+    <article class="episode" id="001-housing-and-hegemony">
+      <div class="meta-row">
+        <span>EP 001</span>
+        <span>Gramsci · Kropotkin</span>
+        <span>11 chapters</span>
+        <span class="runtime">3:30</span>
+      </div>
+      <h3>Housing and the shape of the state</h3>
+      <p class="subtitle">Gramsci and Kropotkin, on why rent has always been political.</p>
+      <div class="thinker-strip">
+      <div class="thinker-card">
+        <img src="portraits/gramsci.png" alt="Gramsci portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">GRAMSCI</p>
+          <p class="thinker-dates">1891–1937</p>
+          <p class="thinker-tradition">Italian Marxist / cultural theorist</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/kropotkin.png" alt="Kropotkin portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">KROPOTKIN</p>
+          <p class="thinker-dates">1842–1921</p>
+          <p class="thinker-tradition">Russian anarchist / geographer / mutual-aid theorist</p>
+        </div>
+      </div>
+      </div>
+      <img class="waveform" src="../episodes/001-housing-and-hegemony/housing-and-hegemony.waveform.png" alt="Waveform" loading="lazy">
+      <audio controls preload="none">
+        <source src="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">Download the mp3</a>.
+      </audio>
+    <div class="links">
+      <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" download>Download MP3</a>
+      <a href="../episodes/001-housing-and-hegemony/transcript.md">Transcript</a>
+      <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.waveform.png">Waveform PNG</a>
+      <a href="https://github.com/robertmccallnz/kd-dialogues/tree/main/episodes/001-housing-and-hegemony" target="_blank" rel="noopener">Repo folder ↗</a>
+    </div>
+      <ul class="acts"><li>I. Diagnosis</li><li>II. Disagreement</li><li>III. Proposal</li></ul>
+      
+      <p class="path">episodes/001-housing-and-hegemony/</p>
+    </article>
+    <article class="episode" id="002-india-fta">
+      <div class="meta-row">
+        <span>EP 002</span>
+        <span>Luxon · Freire</span>
+        <span>8 chapters</span>
+        <span class="runtime">6:54</span>
+      </div>
+      <h3>A once-in-a-generation opportunity?</h3>
+      <p class="subtitle">Luxon and Freire on the New Zealand-India free trade agreement.</p>
+      <div class="thinker-strip">
+      <div class="thinker-card">
+        <img src="portraits/luxon.png" alt="Luxon portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">LUXON</p>
+          <p class="thinker-dates">1970–</p>
+          <p class="thinker-tradition">New Zealand centre-right / corporate managerialism (National Party leader, PM 2023–)</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/freire.png" alt="Freire portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">FREIRE</p>
+          <p class="thinker-dates">1921–1997</p>
+          <p class="thinker-tradition">Brazilian critical pedagogue</p>
+        </div>
+      </div>
+      </div>
+      <img class="waveform" src="../episodes/002-india-fta/india-fta.waveform.png" alt="Waveform" loading="lazy">
+      <audio controls preload="none">
+        <source src="../episodes/002-india-fta/india-fta.mp3" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="../episodes/002-india-fta/india-fta.mp3">Download the mp3</a>.
+      </audio>
+    <div class="links">
+      <a href="../episodes/002-india-fta/india-fta.mp3" download>Download MP3</a>
+      <a href="../episodes/002-india-fta/transcript.md">Transcript</a>
+      <a href="../episodes/002-india-fta/india-fta.waveform.png">Waveform PNG</a>
+      <a href="https://github.com/robertmccallnz/kd-dialogues/tree/main/episodes/002-india-fta" target="_blank" rel="noopener">Repo folder ↗</a>
+    </div>
+      <ul class="acts"><li>I. Diagnosis</li><li>II. Disagreement</li><li>III. Proposal</li></ul>
+      <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.mfat.govt.nz/en/trade/free-trade-agreements/india" target="_blank" rel="noopener">MFAT — New Zealand–India Comprehensive Economic Partnership Agreement</a> <span class="src-note">— signed 27 April 2026, New Delhi</span></li><li><a href="https://bills.parliament.nz" target="_blank" rel="noopener">NZ Parliament — first reading Hansard</a> <span class="src-note">— 25 June 2026, 93 to 29</span></li><li>Paulo Freire, Pedagogy of the Oppressed (1968) <span class="src-note">— chapters 2 and 3 — banking vs. dialogical education</span></li><li><a href="https://kiwidialectic.substack.com" target="_blank" rel="noopener">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
+      <p class="path">episodes/002-india-fta/</p>
+    </article>
+    <article class="episode" id="003-nuclear-boogeyman">
+      <div class="meta-row">
+        <span>EP 003</span>
+        <span>Novelly · Bakunin</span>
+        <span>8 chapters</span>
+        <span class="runtime">7:45</span>
+      </div>
+      <h3>The boogeyman with the DeLorean</h3>
+      <p class="subtitle">Novelly and Bakunin on nuclear-free New Zealand.</p>
+      <div class="thinker-strip">
+      <div class="thinker-card">
+        <img src="portraits/novelly.png" alt="Novelly portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">NOVELLY</p>
+          <p class="thinker-dates">c. 1976– · US Ambassador to New Zealand &amp; Samoa, July 2026–</p>
+          <p class="thinker-tradition">Republican donor / Missouri oil family (Apex Oil / FutureFuel) / sports investor turned Trump ambassador</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/bakunin.png" alt="Bakunin portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">BAKUNIN</p>
+          <p class="thinker-dates">1814–1876</p>
+          <p class="thinker-tradition">Russian anarchist / revolutionary agitator</p>
+        </div>
+      </div>
+      </div>
+      <img class="waveform" src="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.waveform.png" alt="Waveform" loading="lazy">
+      <audio controls preload="none">
+        <source src="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">Download the mp3</a>.
+      </audio>
+    <div class="links">
+      <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" download>Download MP3</a>
+      <a href="../episodes/003-nuclear-boogeyman/transcript.md">Transcript</a>
+      <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.waveform.png">Waveform PNG</a>
+      <a href="https://github.com/robertmccallnz/kd-dialogues/tree/main/episodes/003-nuclear-boogeyman" target="_blank" rel="noopener">Repo folder ↗</a>
+    </div>
+      <ul class="acts"><li>I. The Boogeyman</li><li>II. Carry Your Own Water</li><li>III. Whose Friends</li></ul>
+      <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.rnz.co.nz/news/politics/660035/new-us-ambassador-would-like-chance-to-work-on-new-zealand-s-nuclear-policy" target="_blank" rel="noopener">RNZ — New US ambassador would like chance to work on NZ&#x27;s nuclear policy</a> <span class="src-note">— Lillian Hanly, 3 July 2026 — all Novelly quotes verbatim</span></li><li><a href="https://thespinoff.co.nz/politics/27-05-2026/us-senate-confirms-donald-trumps-pick-for-ambassador-to-nz-billionaire-jared-novelly" target="_blank" rel="noopener">The Spinoff — US Senate confirms Trump&#x27;s pick for ambassador to NZ</a> <span class="src-note">— background on Novelly&#x27;s Apex Oil family and Republican donor history</span></li><li><a href="https://projects.propublica.org/trump-team-financial-disclosures/appointees/novelly-jared/" target="_blank" rel="noopener">ProPublica — Trump team financial disclosures, Novelly Jared</a></li><li><a href="https://www.stlmag.com/business/jared-novelly-basketball-australia/" target="_blank" rel="noopener">St Louis Magazine — Novelly&#x27;s push to unseat Kestelman</a> <span class="src-note">— March 2025 corporate raid on Illawarra Hawks / NBL</span></li><li><a href="https://law.justia.com/cases/federal/appellate-courts/F2/960/728/" target="_blank" rel="noopener">Justia — Apex Oil Chapter 11 appeals (960 F.2d 728)</a> <span class="src-note">— 1987 bankruptcy; self-dealing allegations unproven; creditors paid 64–86¢/$</span></li><li><a href="https://www.legislation.govt.nz/act/public/1987/0086/latest/DLM115116.html" target="_blank" rel="noopener">Nuclear Free New Zealand Act 1987</a> <span class="src-note">— the law Novelly wants &quot;the chance to work on&quot;</span></li><li>Bakunin, Statism and Anarchy (1873) <span class="src-note">— chapter on the alliance of church, state, and capital</span></li><li><a href="https://kiwidialectic.substack.com" target="_blank" rel="noopener">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
+      <p class="path">episodes/003-nuclear-boogeyman/</p>
+    </article>
   </div>
-  <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.rnz.co.nz/news/politics/660035/new-us-ambassador-would-like-chance-to-work-on-new-zealand-s-nuclear-policy">RNZ — New US ambassador would like chance to work on NZ's nuclear policy</a> <span class="src-note">— Lillian Hanly, 3 July 2026 — all Novelly quotes verbatim</span></li><li><a href="https://thespinoff.co.nz/politics/27-05-2026/us-senate-confirms-donald-trumps-pick-for-ambassador-to-nz-billionaire-jared-novelly">The Spinoff — US Senate confirms Trump's pick for ambassador to NZ</a> <span class="src-note">— background on Novelly's Apex Oil family and Republican donor history</span></li><li><a href="https://projects.propublica.org/trump-team-financial-disclosures/appointees/novelly-jared/">ProPublica — Trump team financial disclosures, Novelly Jared</a></li><li><a href="https://www.stlmag.com/business/jared-novelly-basketball-australia/">St Louis Magazine — Novelly's push to unseat Kestelman</a> <span class="src-note">— March 2025 corporate raid on Illawarra Hawks / NBL</span></li><li><a href="https://law.justia.com/cases/federal/appellate-courts/F2/960/728/">Justia — Apex Oil Chapter 11 appeals (960 F.2d 728)</a> <span class="src-note">— 1987 bankruptcy; self-dealing allegations unproven; creditors paid 64–86¢/$</span></li><li><a href="https://www.legislation.govt.nz/act/public/1987/0086/latest/DLM115116.html">Nuclear Free New Zealand Act 1987</a> <span class="src-note">— the law Novelly wants "the chance to work on"</span></li><li>Bakunin, Statism and Anarchy (1873) <span class="src-note">— chapter on the alliance of church, state, and capital</span></li><li><a href="https://kiwidialectic.substack.com">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
-  <p class="path">episodes/003-nuclear-boogeyman/</p>
-</article>
+</section>
 
-
-    <h2 class="section">Video Dialogues</h2>
-<article class="card">
-  <h2>SIX THINKERS: DIALOGUES</h2>
-  <p class="subtitle">A writing-room course from The Kiwi Dialectic.</p>
-  <p class="thinkers">Gramsci · Kropotkin · Bakunin · Freire · Deleuze · Graeber</p>
-  <p class="runtime">111s · 6 beats</p>
-  <div class="videos">
-    <a class="video-link" href="../dialogues/001-first-round/video/first-round-16x9.mp4">16x9</a>
-    <a class="video-link" href="../dialogues/001-first-round/video/first-round-9x16.mp4">9x16</a>
-    <a class="video-link" href="../dialogues/001-first-round/video/first-round-1x1.mp4">1x1</a>
+<section class="block" id="roster">
+  <div class="shell">
+    <p class="section-eyebrow">The Roster</p>
+    <h2>Voices in the writing room.</h2>
+    <div class="roster-grid">
+      <div class="thinker-card">
+        <img src="portraits/bakunin.png" alt="Bakunin portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">BAKUNIN</p>
+          <p class="thinker-dates">1814–1876</p>
+          <p class="thinker-tradition">Russian anarchist / revolutionary agitator</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/deleuze.png" alt="Deleuze portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">DELEUZE</p>
+          <p class="thinker-dates">1925–1995</p>
+          <p class="thinker-tradition">French poststructuralist philosopher</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/freire.png" alt="Freire portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">FREIRE</p>
+          <p class="thinker-dates">1921–1997</p>
+          <p class="thinker-tradition">Brazilian critical pedagogue</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/graeber.png" alt="Graeber portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">GRAEBER</p>
+          <p class="thinker-dates">1961–2020</p>
+          <p class="thinker-tradition">American anarchist anthropologist</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/gramsci.png" alt="Gramsci portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">GRAMSCI</p>
+          <p class="thinker-dates">1891–1937</p>
+          <p class="thinker-tradition">Italian Marxist / cultural theorist</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/kropotkin.png" alt="Kropotkin portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">KROPOTKIN</p>
+          <p class="thinker-dates">1842–1921</p>
+          <p class="thinker-tradition">Russian anarchist / geographer / mutual-aid theorist</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/luxon.png" alt="Luxon portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">LUXON</p>
+          <p class="thinker-dates">1970–</p>
+          <p class="thinker-tradition">New Zealand centre-right / corporate managerialism (National Party leader, PM 2023–)</p>
+        </div>
+      </div>
+      <div class="thinker-card">
+        <img src="portraits/novelly.png" alt="Novelly portrait" loading="lazy">
+        <div class="thinker-meta">
+          <p class="thinker-name">NOVELLY</p>
+          <p class="thinker-dates">c. 1976– · US Ambassador to New Zealand &amp; Samoa, July 2026–</p>
+          <p class="thinker-tradition">Republican donor / Missouri oil family (Apex Oil / FutureFuel) / sports investor turned Trump ambassador</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <p class="path">dialogues/001-first-round/</p>
-</article>
+</section>
 
-  </main>
 
-  <footer>
-    <p>Source: <a href="https://github.com/robertmccallnz/kd-dialogues">github.com/robertmccallnz/kd-dialogues</a> · Made for <a href="https://kiwidialectic.substack.com">The Kiwi Dialectic</a>.</p>
-    <p>Voices synthesised from documented cadence, vernacular, and delivery. Portraits and text CC BY-SA 4.0.</p>
-  </footer>
+<section class="block" id="videos">
+  <div class="shell">
+    <p class="section-eyebrow">Video Dialogues</p>
+    <h2>Round-tables and pencil-sketch shorts.</h2>
+    <article class="episode">
+      <div class="meta-row"><span>Gramsci · Kropotkin · Bakunin · Freire · Deleuze · Graeber</span><span class="runtime">111s</span></div>
+      <h3>SIX THINKERS: DIALOGUES</h3>
+      <p class="subtitle">A writing-room course from The Kiwi Dialectic.</p>
+      <p><a href="../dialogues/001-first-round/video/first-round-16x9.mp4">16x9</a> · <a href="../dialogues/001-first-round/video/first-round-9x16.mp4">9x16</a> · <a href="../dialogues/001-first-round/video/first-round-1x1.mp4">1x1</a></p>
+      <p class="path">dialogues/001-first-round/</p>
+    </article>
+  </div>
+</section>
+
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="row">
+      <div>
+        <h4>KD DIALOGUES</h4>
+        <a href="https://github.com/robertmccallnz/kd-dialogues" target="_blank">GitHub repo (audio lives here)</a>
+        <a href="https://kiwidialectic.substack.com" target="_blank">The Kiwi Dialectic on Substack</a>
+        <a href="https://ko-fi.com/thekiwidialectic" target="_blank">Support on Ko-fi</a>
+      </div>
+      <div>
+        <h4>SISTER SITE</h4>
+        <a href="https://robertmccallnz.github.io/six-thinkers/" target="_blank">Six Thinkers — free HTML courses</a>
+        <a href="https://github.com/robertmccallnz/six-thinkers" target="_blank">six-thinkers repo</a>
+        <a href="https://robertmccallnz.github.io/kiwidialecticcalendar-/github-calendar-connector.html" target="_blank">Course calendar</a>
+      </div>
+      <div>
+        <h4>OPEN</h4>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+        <a href="https://github.com/robertmccallnz/kd-dialogues/blob/main/README.md" target="_blank">README</a>
+        <a href="https://github.com/robertmccallnz/kd-dialogues/blob/main/episodes/SCHEMA.md" target="_blank">Episode schema</a>
+      </div>
+    </div>
+    <p class="copy">© The Kiwi Dialectic · Made in Ōtepoti Dunedin · Voices synthesised from documented cadence, vernacular, and delivery. Portraits and text CC BY-SA 4.0. Train the mind. Arm the class.</p>
+  </div>
+</footer>
+
 </body>
 </html>
