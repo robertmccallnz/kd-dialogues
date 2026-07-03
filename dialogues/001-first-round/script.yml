@@ -1,0 +1,84 @@
+# kd-dialogues script — this is the ONLY file you edit to make a new dialogue.
+#
+# Fields:
+#   slug        : url-safe id, also becomes the video filename stem
+#   title       : the on-card title
+#   subtitle    : optional under-title
+#   cold_open   : text shown over cream paper at the start (0-4s)
+#   turn_card   : text on the "your turn" transition card near the end
+#   end_card    : block shown at the end with URLs/attribution
+#   lines       : the dialogue itself, ordered. Each line has:
+#                   thinker  — must match a folder in thinkers/
+#                   say      — the exact text to synthesise (include [pauses], —, ..., [laughs] tags)
+#                   caption  — optional short poster-card version shown on screen
+#                              (defaults to a smart-truncated version of `say`)
+
+slug: first-round
+title: "SIX THINKERS: DIALOGUES"
+subtitle: "A writing-room course from The Kiwi Dialectic."
+end_card:
+  line_1: "Free · Open source · Fork it."
+  url_1: "kd-dialogues"
+  url_2: "thekiwidialectic.substack.com"
+
+cold_open: "Six thinkers walk into a room."
+turn_card: "Now — your turn to write."
+
+lines:
+  - thinker: gramsci
+    say: |
+      Look — [pauses] every time someone rules over someone else, somebody is
+      teaching somebody else something... whether they mean to or not. [pauses]
+      So — comrades — I ask you plainly: what, exactly, are we teaching them right now?
+    caption: |
+      Every relationship of hegemony
+      is a pedagogical one.
+      So — what are we teaching?
+
+  - thinker: kropotkin
+    say: |
+      You will hear it said, always, that life is a struggle for existence,
+      each against each. [pauses] But this — my friends — this is not what I have
+      observed, in the forests of Siberia or in the streets of London. The struggle...
+      is for mutual aid. Let us begin there.
+    caption: |
+      The struggle is not each against each.
+      The struggle is for mutual aid.
+      Begin there.
+
+  - thinker: bakunin
+    say: |
+      Permission? [pauses] You want to ask THEM — the state — for the right to
+      be free? NO. [pauses] Ask each other — do you hear me — each other!
+    caption: |
+      Do not ask the state for freedom.
+      Ask each other.
+
+  - thinker: freire
+    say: |
+      To read the word... [pauses] this alone is not enough, no. [laughs softly]
+      We must also read the world — and then, together... we must rewrite it.
+    caption: |
+      Reading the word is not enough.
+      We must read the world —
+      and rewrite it, together.
+
+  - thinker: deleuze
+    say: |
+      A book — how to put this — [laughs] a book is a little machine, you see.
+      Not a machine that means something — a machine that does something. So I
+      ask you: what does yours do? [pauses] What... does it break?
+    caption: |
+      A book is a little machine.
+      What does yours do?
+      What does it break?
+
+  - thinker: graeber
+    say: |
+      Okay, so — most of what they call [pauses] 'the economy,' quote unquote —
+      is really just, you know, us taking care of each other. [laughs] The rest of it?
+      Yeah. The rest is BULLSHIT.
+    caption: |
+      Most of what they call the economy
+      is us taking care of each other.
+      The rest is bullshit.

@@ -1,0 +1,34 @@
+display_name: GRAMSCI
+full_name: Antonio Gramsci
+dates: "1891–1937"
+tradition: Italian Marxist / cultural theorist
+
+# TTS engine setup
+tts_voice: iapetus          # low-mid deliberate; from the built-in speech guide
+default_pitch: low-mid
+default_tempo: mid (slows for the prison/didactic register, quickens for parliament)
+
+# Vernacular hints — the engine passes these to whoever authors a script,
+# and can also be used to auto-rewrite generic quotes into Gramsci-cadence lines.
+vernacular:
+  - "Reverse the condescending metaphor: 'go up to' the workers, never 'down to'."
+  - "Concrete parable and analogy over abstract jargon."
+  - "Address listeners as 'comrades' as intellectual equals, not audience to be moved."
+  - "Rhetorical question at the end of a point rather than flat statement."
+  - "Homely illustrations unpack the theoretical terms (hegemony, subaltern, organic intellectual)."
+
+delivery_tags:
+  # Suggested inline tags for TTS scripts. See kd-dialogues/kd/tts.py for the full list.
+  - "[pauses]"      # before key theoretical terms
+  - "..."           # halting / prison-voice register
+  - "—"             # parliamentary interruption / rebuttal
+
+replacement_phrasings:
+  "the ruling class": "the people who tell us how to think, before we even ask"
+  "in conclusion": "so — comrades — where does that leave us"
+
+sources:
+  - "Luigi Barzini, NYRB 1967: https://www.nybooks.com/articles/1967/09/28/a-founding-father/"
+  - "Tribune, 'Remembering Antonio Gramsci': https://tribunemag.co.uk/2023/04/remembering-antonio-gramsci-2"
+  - "Gramsci's 1925 parliamentary speech: https://www.marxists.org/archive/gramsci/1925/05/speech.htm"
+  - "John Foot, LRB: https://www.lrb.co.uk/the-paper/v16/n11/john-foot/households-of-patience"

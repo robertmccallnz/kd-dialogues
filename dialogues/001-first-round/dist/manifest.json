@@ -1,0 +1,28 @@
+{
+  "slug": "first-round",
+  "title": "SIX THINKERS: DIALOGUES",
+  "runtime_seconds": 111.58574799999998,
+  "platforms": {
+    "youtube": {
+      "video": "video/first-round-16x9.mp4",
+      "caption": "captions/youtube.txt"
+    },
+    "tiktok": {
+      "video": "video/first-round-9x16.mp4",
+      "caption": "captions/tiktok.txt"
+    },
+    "instagram": {
+      "video": "video/first-round-9x16.mp4",
+      "caption": "captions/instagram.txt",
+      "note": "For feed post, also crop 1:1 available at videos['1x1']."
+    },
+    "x": {
+      "video": "video/first-round-1x1.mp4",
+      "caption": "captions/x.txt"
+    },
+    "substack": {
+      "video": "video/first-round-1x1.mp4",
+      "embed": "video/embed.substack.html"
+    }
+  }
+}

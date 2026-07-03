@@ -1,0 +1,6 @@
+# Renderer scratch
+**/_frames_*/
+**/__pycache__/
+*.pyc
+
+# Nothing else is ignored — audio and video mp4s are the point of this repo.

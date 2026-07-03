@@ -1,0 +1,51 @@
+{
+  "slug": "first-round",
+  "title": "SIX THINKERS: DIALOGUES",
+  "subtitle": "A writing-room course from The Kiwi Dialectic.",
+  "runtime_seconds": 111.58574799999998,
+  "thinkers": [
+    "gramsci",
+    "kropotkin",
+    "bakunin",
+    "freire",
+    "deleuze",
+    "graeber"
+  ],
+  "beats": [
+    {
+      "slug": "gramsci",
+      "start": 3.0,
+      "end": 25.930958
+    },
+    {
+      "slug": "kropotkin",
+      "start": 25.930958,
+      "end": 47.821916
+    },
+    {
+      "slug": "bakunin",
+      "start": 47.821916,
+      "end": 61.872874
+    },
+    {
+      "slug": "freire",
+      "start": 61.872874,
+      "end": 73.963832
+    },
+    {
+      "slug": "deleuze",
+      "start": 73.963832,
+      "end": 93.17478999999999
+    },
+    {
+      "slug": "graeber",
+      "start": 93.17478999999999,
+      "end": 105.58574799999998
+    }
+  ],
+  "videos": {
+    "16x9": "video/first-round-16x9.mp4",
+    "9x16": "video/first-round-9x16.mp4",
+    "1x1": "video/first-round-1x1.mp4"
+  }
+}
