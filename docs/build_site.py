@@ -548,21 +548,25 @@ PAGE = """<!doctype html>
     <div class="row">
       <div>
         <h4>KD DIALOGUES</h4>
-        <a href="{repo_url}" target="_blank">GitHub repo (audio lives here)</a>
         <a href="{substack}" target="_blank">The Kiwi Dialectic on Substack</a>
         <a href="{kofi}" target="_blank">Support on Ko-fi</a>
-      </div>
-      <div>
-        <h4>SISTER SITE</h4>
-        <a href="{six_thinkers}" target="_blank">Six Thinkers — free HTML courses</a>
-        <a href="https://github.com/robertmccallnz/six-thinkers" target="_blank">six-thinkers repo</a>
         <a href="{calendar}" target="_blank">Course calendar</a>
       </div>
       <div>
+        <h4>OTHER COURSES</h4>
+        <a href="{six_thinkers}" target="_blank">Six Thinkers</a>
+        <a href="https://robertmccallnz.github.io/ai-warrior/" target="_blank">AI Warrior</a>
+        <a href="https://robertmccallnz.github.io/ai-literacy-for-families/" target="_blank">AI Literacy for Families</a>
+        <a href="https://robertmccallnz.github.io/cooperative-aotearoa/" target="_blank">Cooperatives in Aotearoa</a>
+        <a href="https://te-pa.org" target="_blank">Te Pā Tūwatawata</a>
+      </div>
+      <div>
         <h4>OPEN</h4>
-        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+        <a href="{repo_url}" target="_blank">kd-dialogues · repo (dialogues live here)</a>
+        <a href="https://github.com/robertmccallnz/six-thinkers" target="_blank">six-thinkers · repo</a>
         <a href="{repo_url}/blob/main/README.md" target="_blank">README</a>
         <a href="{repo_url}/blob/main/episodes/SCHEMA.md" target="_blank">Episode schema</a>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
       </div>
     </div>
     <p class="copy">© The Kiwi Dialectic · Made in Ōtepoti Dunedin · Voices synthesised from documented cadence, vernacular, and delivery. Portraits and text CC BY-SA 4.0. Train the mind. Arm the class.</p>
