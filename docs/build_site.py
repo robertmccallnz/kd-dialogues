@@ -28,12 +28,16 @@ THINKERS = REPO / "thinkers"
 DOCS = REPO / "docs"
 OUT = DOCS / "index.html"
 PORTRAITS_OUT = DOCS / "portraits"
-WAVEFORMS_OUT = DOCS / "waveforms"
+MEDIA_OUT = DOCS / "media"
 
-# Pages serves only from /docs, so audio (large mp3s) is linked out to raw
-# GitHub content. Waveforms are small (~36K each) so they're copied into
-# /docs/waveforms/ and served from the Pages CDN.
-RAW = "https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main"
+# GitHub Pages only serves files inside /docs, so every media asset
+# (mp3 + waveform + transcript) is copied from the repo root into
+# /docs/media/<slug>/ at build time. This keeps everything same-origin
+# on the Pages CDN — no raw.githubusercontent.com hotlinking, no CORS.
+#
+# Total media weight is ~13 MB across three episodes; well under Pages
+# limits and cached aggressively at the CDN edge.
+SITE_URL = "https://robertmccallnz.github.io/kd-dialogues"
 
 SUBSTACK = "https://kiwidialectic.substack.com"
 KOFI = "https://ko-fi.com/thekiwidialectic"
@@ -76,17 +80,19 @@ def portrait_path(slug: str) -> Path | None:
     return p if p.exists() else None
 
 
-def copy_waveform(episode_dir: str, waveform_filename: str) -> str | None:
-    """Copy episodes/<dir>/<waveform>.png into docs/waveforms/<dir>.png. Return
-    the docs-relative path (or None if the source file is missing)."""
-    src = EPISODES / episode_dir / waveform_filename
+def copy_media(episode_dir: str, source_filename: str, dest_filename: str | None = None) -> str | None:
+    """Copy episodes/<dir>/<file> into docs/media/<dir>/<file>. Return the
+    docs-relative path (or None if the source is missing)."""
+    src = EPISODES / episode_dir / source_filename
     if not src.exists():
         return None
-    WAVEFORMS_OUT.mkdir(parents=True, exist_ok=True)
-    dest = WAVEFORMS_OUT / f"{episode_dir}.png"
+    dest_dir = MEDIA_OUT / episode_dir
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest = dest_dir / (dest_filename or source_filename)
+    # only copy if size changed (avoids rewriting large mp3s every build)
     if not dest.exists() or dest.stat().st_size != src.stat().st_size:
         shutil.copyfile(src, dest)
-    return f"waveforms/{episode_dir}.png"
+    return f"media/{episode_dir}/{dest.name}"
 
 
 # ---------------- collectors ----------------
@@ -582,27 +588,26 @@ def render_episode_card(e: dict) -> str:
 
     ep_number = slug.split("-", 1)[0] if slug and slug[:3].isdigit() else ""
 
-    # Audio + transcript live at repo root (outside /docs), so link them via
-    # raw.githubusercontent.com. Waveforms are copied into /docs/waveforms/.
-    mp3_url = f"{RAW}/episodes/{slug}/{mp3}" if mp3 else ""
-    transcript_url = f"{RAW}/episodes/{slug}/transcript.md"
+    # All media (mp3, waveform, transcript) copied into /docs/media/<slug>/
+    # so it's served same-origin from the Pages CDN.
+    mp3_rel = copy_media(slug, mp3) if mp3 else None
+    wf_rel = copy_media(slug, wf) if wf else None
+    transcript_rel = copy_media(slug, "transcript.md")
 
-    waveform_html = ""
-    waveform_link_html = ""
-    if wf:
-        copied = copy_waveform(slug, wf)
-        if copied:
-            waveform_html = f'<img class="waveform" src="{escape(copied)}" alt="Waveform" loading="lazy">'
-            waveform_link_html = f'<a href="{escape(copied)}">Waveform PNG</a>'
+    waveform_html = f'<img class="waveform" src="{escape(wf_rel)}" alt="Waveform" loading="lazy">' if wf_rel else ""
+    waveform_link_html = f'<a href="{escape(wf_rel)}">Waveform PNG</a>' if wf_rel else ""
 
     acts = e.get("acts") or []
     acts_html = ""
     if acts:
         acts_html = '<ul class="acts">' + "".join(f"<li>{escape(a)}</li>" for a in acts) + "</ul>"
 
+    mp3_href = escape(mp3_rel) if mp3_rel else ""
+    transcript_href = escape(transcript_rel) if transcript_rel else ""
+
     links_html = f"""    <div class="links">
-      <a href="{escape(mp3_url)}" download>Download MP3</a>
-      <a href="{escape(transcript_url)}" target="_blank" rel="noopener">Transcript</a>
+      {f'<a href="{mp3_href}" download>Download MP3</a>' if mp3_href else ''}
+      {f'<a href="{transcript_href}">Transcript</a>' if transcript_href else ''}
       {waveform_link_html}
       <a href="{escape(REPO_URL)}/tree/main/episodes/{escape(slug)}" target="_blank" rel="noopener">Repo folder ↗</a>
     </div>"""
@@ -621,13 +626,13 @@ def render_episode_card(e: dict) -> str:
       </div>
       {waveform_html}
       <audio controls preload="none">
-        <source src="{escape(mp3_url)}" type="audio/mpeg">
-        Your browser cannot play this audio. <a href="{escape(mp3_url)}">Download the mp3</a>.
+        <source src="{mp3_href}" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="{mp3_href}">Download the mp3</a>.
       </audio>
 {links_html}
       {acts_html}
       {render_sources(e.get('sources', []))}
-      <p class="path">episodes/{escape(slug)}/ · audio served via raw.githubusercontent.com</p>
+      <p class="path">episodes/{escape(slug)}/</p>
     </article>"""
 
 
@@ -698,6 +703,7 @@ def render() -> None:
     print(f"  · {len(audio_entries)} audio episode(s)")
     print(f"  · {len(video_entries)} video dialogue(s)")
     print(f"  · portraits copied to {PORTRAITS_OUT}/")
+    print(f"  · media copied to {MEDIA_OUT}/")
 
 
 if __name__ == "__main__":
