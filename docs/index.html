@@ -139,9 +139,17 @@ section.block h2 {
 
 .thinker-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 14px;
+  /* Force 2 columns on mobile so cast members sit side by side, even at 320px.
+     Above ~640px, auto-fit fills with 140px+ columns. */
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin: 0 0 20px;
+}
+@media (min-width: 640px) {
+  .thinker-strip {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+  }
 }
 .thinker-card {
   display: flex; flex-direction: column;
@@ -235,11 +243,17 @@ details.sources .src-note { color: var(--muted); font-style: italic; }
   letter-spacing: .08em;
 }
 
-/* Roster grid */
+/* Roster grid — 2 up on mobile, auto-fit above */
 .roster-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (min-width: 640px) {
+  .roster-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
 }
 
 /* Footer */
@@ -264,11 +278,29 @@ footer.site-footer {
 .site-footer a:hover { color: var(--kōura); text-decoration: none; }
 .site-footer .copy { color: var(--muted); font-size: 13px; margin-top: 30px; opacity: .75; }
 
+/* Mobile tuning */
 @media (max-width: 700px) {
+  body { font-size: 16px; }
+  .shell { padding: 0 16px; }
   .hero { padding: 50px 0 40px; }
+  .hero h1 { font-size: clamp(38px, 11vw, 60px); }
+  .hero .kaupapa { font-size: 16px; }
   section.block { padding: 40px 0; }
+  section.block h2 { font-size: 26px; }
   .site-nav .links a { margin-left: 10px; font-size: 12px; }
-  .thinker-strip { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+  .episode { padding: 18px 16px; }
+  .episode h3 { font-size: 22px; }
+  .episode .meta-row { font-size: 11px; letter-spacing: .06em; gap: 8px; }
+  .episode .meta-row .runtime { margin-left: 0; }
+  .thinker-name { font-size: 14px; }
+  .thinker-dates { font-size: 10px; }
+  .thinker-tradition { font-size: 11px; line-height: 1.3; }
+  .episode .links { gap: 6px; }
+  .episode .links a { padding: 5px 9px; font-size: 11px; }
+  details.sources ul { margin-left: 1rem; padding-right: 4px; word-wrap: break-word; overflow-wrap: anywhere; }
+  details.sources a { word-break: break-word; }
+  footer.site-footer { padding: 40px 0 30px; }
+  .site-footer .row { gap: 22px; }
 }</style>
 </head>
 <body>
@@ -329,20 +361,20 @@ footer.site-footer {
         </div>
       </div>
       </div>
-      <img class="waveform" src="../episodes/001-housing-and-hegemony/housing-and-hegemony.waveform.png" alt="Waveform" loading="lazy">
+      <img class="waveform" src="waveforms/001-housing-and-hegemony.png" alt="Waveform" loading="lazy">
       <audio controls preload="none">
-        <source src="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" type="audio/mpeg">
-        Your browser cannot play this audio. <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">Download the mp3</a>.
+        <source src="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">Download the mp3</a>.
       </audio>
     <div class="links">
-      <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" download>Download MP3</a>
-      <a href="../episodes/001-housing-and-hegemony/transcript.md">Transcript</a>
-      <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.waveform.png">Waveform PNG</a>
+      <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" download>Download MP3</a>
+      <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/001-housing-and-hegemony/transcript.md" target="_blank" rel="noopener">Transcript</a>
+      <a href="waveforms/001-housing-and-hegemony.png">Waveform PNG</a>
       <a href="https://github.com/robertmccallnz/kd-dialogues/tree/main/episodes/001-housing-and-hegemony" target="_blank" rel="noopener">Repo folder ↗</a>
     </div>
       <ul class="acts"><li>I. Diagnosis</li><li>II. Disagreement</li><li>III. Proposal</li></ul>
       
-      <p class="path">episodes/001-housing-and-hegemony/</p>
+      <p class="path">episodes/001-housing-and-hegemony/ · audio served via raw.githubusercontent.com</p>
     </article>
     <article class="episode" id="002-india-fta">
       <div class="meta-row">
@@ -371,20 +403,20 @@ footer.site-footer {
         </div>
       </div>
       </div>
-      <img class="waveform" src="../episodes/002-india-fta/india-fta.waveform.png" alt="Waveform" loading="lazy">
+      <img class="waveform" src="waveforms/002-india-fta.png" alt="Waveform" loading="lazy">
       <audio controls preload="none">
-        <source src="../episodes/002-india-fta/india-fta.mp3" type="audio/mpeg">
-        Your browser cannot play this audio. <a href="../episodes/002-india-fta/india-fta.mp3">Download the mp3</a>.
+        <source src="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/002-india-fta/india-fta.mp3" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/002-india-fta/india-fta.mp3">Download the mp3</a>.
       </audio>
     <div class="links">
-      <a href="../episodes/002-india-fta/india-fta.mp3" download>Download MP3</a>
-      <a href="../episodes/002-india-fta/transcript.md">Transcript</a>
-      <a href="../episodes/002-india-fta/india-fta.waveform.png">Waveform PNG</a>
+      <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/002-india-fta/india-fta.mp3" download>Download MP3</a>
+      <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/002-india-fta/transcript.md" target="_blank" rel="noopener">Transcript</a>
+      <a href="waveforms/002-india-fta.png">Waveform PNG</a>
       <a href="https://github.com/robertmccallnz/kd-dialogues/tree/main/episodes/002-india-fta" target="_blank" rel="noopener">Repo folder ↗</a>
     </div>
       <ul class="acts"><li>I. Diagnosis</li><li>II. Disagreement</li><li>III. Proposal</li></ul>
       <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.mfat.govt.nz/en/trade/free-trade-agreements/india" target="_blank" rel="noopener">MFAT — New Zealand–India Comprehensive Economic Partnership Agreement</a> <span class="src-note">— signed 27 April 2026, New Delhi</span></li><li><a href="https://bills.parliament.nz" target="_blank" rel="noopener">NZ Parliament — first reading Hansard</a> <span class="src-note">— 25 June 2026, 93 to 29</span></li><li>Paulo Freire, Pedagogy of the Oppressed (1968) <span class="src-note">— chapters 2 and 3 — banking vs. dialogical education</span></li><li><a href="https://kiwidialectic.substack.com" target="_blank" rel="noopener">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
-      <p class="path">episodes/002-india-fta/</p>
+      <p class="path">episodes/002-india-fta/ · audio served via raw.githubusercontent.com</p>
     </article>
     <article class="episode" id="003-nuclear-boogeyman">
       <div class="meta-row">
@@ -413,20 +445,20 @@ footer.site-footer {
         </div>
       </div>
       </div>
-      <img class="waveform" src="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.waveform.png" alt="Waveform" loading="lazy">
+      <img class="waveform" src="waveforms/003-nuclear-boogeyman.png" alt="Waveform" loading="lazy">
       <audio controls preload="none">
-        <source src="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" type="audio/mpeg">
-        Your browser cannot play this audio. <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">Download the mp3</a>.
+        <source src="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">Download the mp3</a>.
       </audio>
     <div class="links">
-      <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" download>Download MP3</a>
-      <a href="../episodes/003-nuclear-boogeyman/transcript.md">Transcript</a>
-      <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.waveform.png">Waveform PNG</a>
+      <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" download>Download MP3</a>
+      <a href="https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main/episodes/003-nuclear-boogeyman/transcript.md" target="_blank" rel="noopener">Transcript</a>
+      <a href="waveforms/003-nuclear-boogeyman.png">Waveform PNG</a>
       <a href="https://github.com/robertmccallnz/kd-dialogues/tree/main/episodes/003-nuclear-boogeyman" target="_blank" rel="noopener">Repo folder ↗</a>
     </div>
       <ul class="acts"><li>I. The Boogeyman</li><li>II. Carry Your Own Water</li><li>III. Whose Friends</li></ul>
       <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.rnz.co.nz/news/politics/660035/new-us-ambassador-would-like-chance-to-work-on-new-zealand-s-nuclear-policy" target="_blank" rel="noopener">RNZ — New US ambassador would like chance to work on NZ&#x27;s nuclear policy</a> <span class="src-note">— Lillian Hanly, 3 July 2026 — all Novelly quotes verbatim</span></li><li><a href="https://thespinoff.co.nz/politics/27-05-2026/us-senate-confirms-donald-trumps-pick-for-ambassador-to-nz-billionaire-jared-novelly" target="_blank" rel="noopener">The Spinoff — US Senate confirms Trump&#x27;s pick for ambassador to NZ</a> <span class="src-note">— background on Novelly&#x27;s Apex Oil family and Republican donor history</span></li><li><a href="https://projects.propublica.org/trump-team-financial-disclosures/appointees/novelly-jared/" target="_blank" rel="noopener">ProPublica — Trump team financial disclosures, Novelly Jared</a></li><li><a href="https://www.stlmag.com/business/jared-novelly-basketball-australia/" target="_blank" rel="noopener">St Louis Magazine — Novelly&#x27;s push to unseat Kestelman</a> <span class="src-note">— March 2025 corporate raid on Illawarra Hawks / NBL</span></li><li><a href="https://law.justia.com/cases/federal/appellate-courts/F2/960/728/" target="_blank" rel="noopener">Justia — Apex Oil Chapter 11 appeals (960 F.2d 728)</a> <span class="src-note">— 1987 bankruptcy; self-dealing allegations unproven; creditors paid 64–86¢/$</span></li><li><a href="https://www.legislation.govt.nz/act/public/1987/0086/latest/DLM115116.html" target="_blank" rel="noopener">Nuclear Free New Zealand Act 1987</a> <span class="src-note">— the law Novelly wants &quot;the chance to work on&quot;</span></li><li>Bakunin, Statism and Anarchy (1873) <span class="src-note">— chapter on the alliance of church, state, and capital</span></li><li><a href="https://kiwidialectic.substack.com" target="_blank" rel="noopener">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
-      <p class="path">episodes/003-nuclear-boogeyman/</p>
+      <p class="path">episodes/003-nuclear-boogeyman/ · audio served via raw.githubusercontent.com</p>
     </article>
   </div>
 </section>

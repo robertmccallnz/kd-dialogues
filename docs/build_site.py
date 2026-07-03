@@ -28,6 +28,12 @@ THINKERS = REPO / "thinkers"
 DOCS = REPO / "docs"
 OUT = DOCS / "index.html"
 PORTRAITS_OUT = DOCS / "portraits"
+WAVEFORMS_OUT = DOCS / "waveforms"
+
+# Pages serves only from /docs, so audio (large mp3s) is linked out to raw
+# GitHub content. Waveforms are small (~36K each) so they're copied into
+# /docs/waveforms/ and served from the Pages CDN.
+RAW = "https://raw.githubusercontent.com/robertmccallnz/kd-dialogues/main"
 
 SUBSTACK = "https://kiwidialectic.substack.com"
 KOFI = "https://ko-fi.com/thekiwidialectic"
@@ -68,6 +74,19 @@ def load_voice(slug: str) -> dict:
 def portrait_path(slug: str) -> Path | None:
     p = THINKERS / slug / "portrait.png"
     return p if p.exists() else None
+
+
+def copy_waveform(episode_dir: str, waveform_filename: str) -> str | None:
+    """Copy episodes/<dir>/<waveform>.png into docs/waveforms/<dir>.png. Return
+    the docs-relative path (or None if the source file is missing)."""
+    src = EPISODES / episode_dir / waveform_filename
+    if not src.exists():
+        return None
+    WAVEFORMS_OUT.mkdir(parents=True, exist_ok=True)
+    dest = WAVEFORMS_OUT / f"{episode_dir}.png"
+    if not dest.exists() or dest.stat().st_size != src.stat().st_size:
+        shutil.copyfile(src, dest)
+    return f"waveforms/{episode_dir}.png"
 
 
 # ---------------- collectors ----------------
@@ -293,9 +312,17 @@ section.block h2 {
 
 .thinker-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 14px;
+  /* Force 2 columns on mobile so cast members sit side by side, even at 320px.
+     Above ~640px, auto-fit fills with 140px+ columns. */
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin: 0 0 20px;
+}
+@media (min-width: 640px) {
+  .thinker-strip {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+  }
 }
 .thinker-card {
   display: flex; flex-direction: column;
@@ -389,11 +416,17 @@ details.sources .src-note { color: var(--muted); font-style: italic; }
   letter-spacing: .08em;
 }
 
-/* Roster grid */
+/* Roster grid — 2 up on mobile, auto-fit above */
 .roster-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (min-width: 640px) {
+  .roster-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
 }
 
 /* Footer */
@@ -418,11 +451,29 @@ footer.site-footer {
 .site-footer a:hover { color: var(--kōura); text-decoration: none; }
 .site-footer .copy { color: var(--muted); font-size: 13px; margin-top: 30px; opacity: .75; }
 
+/* Mobile tuning */
 @media (max-width: 700px) {
+  body { font-size: 16px; }
+  .shell { padding: 0 16px; }
   .hero { padding: 50px 0 40px; }
+  .hero h1 { font-size: clamp(38px, 11vw, 60px); }
+  .hero .kaupapa { font-size: 16px; }
   section.block { padding: 40px 0; }
+  section.block h2 { font-size: 26px; }
   .site-nav .links a { margin-left: 10px; font-size: 12px; }
-  .thinker-strip { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+  .episode { padding: 18px 16px; }
+  .episode h3 { font-size: 22px; }
+  .episode .meta-row { font-size: 11px; letter-spacing: .06em; gap: 8px; }
+  .episode .meta-row .runtime { margin-left: 0; }
+  .thinker-name { font-size: 14px; }
+  .thinker-dates { font-size: 10px; }
+  .thinker-tradition { font-size: 11px; line-height: 1.3; }
+  .episode .links { gap: 6px; }
+  .episode .links a { padding: 5px 9px; font-size: 11px; }
+  details.sources ul { margin-left: 1rem; padding-right: 4px; word-wrap: break-word; overflow-wrap: anywhere; }
+  details.sources a { word-break: break-word; }
+  footer.site-footer { padding: 40px 0 30px; }
+  .site-footer .row { gap: 22px; }
 }
 """.strip()
 
@@ -531,9 +582,18 @@ def render_episode_card(e: dict) -> str:
 
     ep_number = slug.split("-", 1)[0] if slug and slug[:3].isdigit() else ""
 
+    # Audio + transcript live at repo root (outside /docs), so link them via
+    # raw.githubusercontent.com. Waveforms are copied into /docs/waveforms/.
+    mp3_url = f"{RAW}/episodes/{slug}/{mp3}" if mp3 else ""
+    transcript_url = f"{RAW}/episodes/{slug}/transcript.md"
+
     waveform_html = ""
+    waveform_link_html = ""
     if wf:
-        waveform_html = f'<img class="waveform" src="../episodes/{escape(slug)}/{escape(wf)}" alt="Waveform" loading="lazy">'
+        copied = copy_waveform(slug, wf)
+        if copied:
+            waveform_html = f'<img class="waveform" src="{escape(copied)}" alt="Waveform" loading="lazy">'
+            waveform_link_html = f'<a href="{escape(copied)}">Waveform PNG</a>'
 
     acts = e.get("acts") or []
     acts_html = ""
@@ -541,9 +601,9 @@ def render_episode_card(e: dict) -> str:
         acts_html = '<ul class="acts">' + "".join(f"<li>{escape(a)}</li>" for a in acts) + "</ul>"
 
     links_html = f"""    <div class="links">
-      <a href="../episodes/{escape(slug)}/{escape(mp3)}" download>Download MP3</a>
-      <a href="../episodes/{escape(slug)}/transcript.md">Transcript</a>
-      {f'<a href="../episodes/{escape(slug)}/{escape(wf)}">Waveform PNG</a>' if wf else ''}
+      <a href="{escape(mp3_url)}" download>Download MP3</a>
+      <a href="{escape(transcript_url)}" target="_blank" rel="noopener">Transcript</a>
+      {waveform_link_html}
       <a href="{escape(REPO_URL)}/tree/main/episodes/{escape(slug)}" target="_blank" rel="noopener">Repo folder ↗</a>
     </div>"""
 
@@ -561,13 +621,13 @@ def render_episode_card(e: dict) -> str:
       </div>
       {waveform_html}
       <audio controls preload="none">
-        <source src="../episodes/{escape(slug)}/{escape(mp3)}" type="audio/mpeg">
-        Your browser cannot play this audio. <a href="../episodes/{escape(slug)}/{escape(mp3)}">Download the mp3</a>.
+        <source src="{escape(mp3_url)}" type="audio/mpeg">
+        Your browser cannot play this audio. <a href="{escape(mp3_url)}">Download the mp3</a>.
       </audio>
 {links_html}
       {acts_html}
       {render_sources(e.get('sources', []))}
-      <p class="path">episodes/{escape(slug)}/</p>
+      <p class="path">episodes/{escape(slug)}/ · audio served via raw.githubusercontent.com</p>
     </article>"""
 
 
