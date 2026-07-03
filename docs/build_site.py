@@ -1,10 +1,12 @@
 """
 Build the static GitHub Pages catalogue at docs/index.html.
 
-Reads dialogues/*/video/metadata.json and renders a cream-paper index page
-listing every dialogue in the repo. Zero build-time dependencies beyond stdlib
-and Jinja-free string formatting — this is on purpose so `python docs/build_site.py`
-works out of the box.
+Reads two sources:
+  * dialogues/*/video/metadata.json  — video dialogues
+  * episodes/*/metadata.json         — audio episodes
+
+Renders a cream-paper index page with an Audio Episodes section and a Video
+Dialogues section. Zero build-time dependencies beyond stdlib.
 """
 
 from __future__ import annotations
@@ -13,11 +15,14 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 DIALOGUES = REPO / "dialogues"
+EPISODES = REPO / "episodes"
 OUT = REPO / "docs" / "index.html"
 
 
-def collect() -> list[dict]:
+def collect_videos() -> list[dict]:
     entries = []
+    if not DIALOGUES.exists():
+        return entries
     for d in sorted(DIALOGUES.iterdir()):
         if not d.is_dir():
             continue
@@ -30,7 +35,23 @@ def collect() -> list[dict]:
     return entries
 
 
-CARD_TPL = """\
+def collect_audio() -> list[dict]:
+    entries = []
+    if not EPISODES.exists():
+        return entries
+    for d in sorted(EPISODES.iterdir()):
+        if not d.is_dir():
+            continue
+        meta = d / "metadata.json"
+        if not meta.exists():
+            continue
+        m = json.loads(meta.read_text())
+        m["dir"] = d.name
+        entries.append(m)
+    return entries
+
+
+VIDEO_CARD = """\
 <article class="card">
   <h2>{title}</h2>
   <p class="subtitle">{subtitle}</p>
@@ -44,6 +65,56 @@ CARD_TPL = """\
 """
 
 VIDEO_LINK = '<a class="video-link" href="../dialogues/{dirname}/{path}">{label}</a>'
+
+AUDIO_CARD = """\
+<article class="card">
+  <h2>{title}</h2>
+  <p class="subtitle">{subtitle}</p>
+  <p class="thinkers">{cast}</p>
+  <p class="runtime">{runtime} · {chapters} chapters</p>
+  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
+    <source src="../episodes/{dirname}/{mp3}" type="audio/mpeg">
+    Your browser cannot play this audio.
+    <a href="../episodes/{dirname}/{mp3}">Download the mp3</a>.
+  </audio>
+  <div class="videos">
+    <a class="video-link" href="../episodes/{dirname}/{mp3}">MP3</a>
+    <a class="video-link" href="../episodes/{dirname}/transcript.md">Transcript</a>
+    {waveform_link}
+  </div>
+  {sources_block}
+  <p class="path">episodes/{dirname}/</p>
+</article>
+"""
+
+AUDIO_WAVEFORM_LINK = '<a class="video-link" href="../episodes/{dirname}/{waveform}">Waveform</a>'
+
+
+def _format_runtime(seconds: float) -> str:
+    total = int(round(float(seconds or 0)))
+    m, s = divmod(total, 60)
+    return f"{m}:{s:02d}"
+
+
+def _render_sources(sources: list) -> str:
+    if not sources:
+        return ""
+    items = []
+    for s in sources:
+        if isinstance(s, str):
+            items.append(f"<li>{s}</li>")
+        elif isinstance(s, dict):
+            title = s.get("title") or s.get("name") or s.get("url", "source")
+            url = s.get("url", "")
+            note = s.get("note", "")
+            body = f'<a href="{url}">{title}</a>' if url else title
+            if note:
+                body += f' <span class="src-note">— {note}</span>'
+            items.append(f"<li>{body}</li>")
+    return (
+        '<details class="sources"><summary>Sources &amp; further reading</summary>'
+        f'<ul>{"".join(items)}</ul></details>'
+    )
 
 
 PAGE = """\
@@ -74,6 +145,15 @@ PAGE = """\
       letter-spacing: 0.02em;
     }}
     header p.lede {{ margin: 0 0 2.5rem; font-style: italic; color: #4a4238; }}
+    h2.section {{
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin: 2.4rem 0 0.6rem;
+      color: var(--brick);
+      border-bottom: 1px solid var(--ochre);
+      padding-bottom: 0.3rem;
+    }}
     .card {{
       border-top: 2px solid var(--ochre);
       padding: 1.4rem 0 1.6rem;
@@ -99,6 +179,11 @@ PAGE = """\
       font-size: 0.78rem;
       color: #7a6f5c;
     }}
+    details.sources {{ margin: 0.6rem 0 0.2rem; font-size: 0.9rem; }}
+    details.sources summary {{ cursor: pointer; color: var(--brick); }}
+    details.sources ul {{ margin: 0.4rem 0 0 1.2rem; padding: 0; }}
+    details.sources a {{ color: var(--ink); }}
+    .src-note {{ color: #4a4238; font-style: italic; }}
     footer {{ margin-top: 3rem; font-size: 0.85rem; color: #7a6f5c; }}
     footer a {{ color: var(--brick); }}
   </style>
@@ -106,11 +191,15 @@ PAGE = """\
 <body>
   <header>
     <h1>kd-dialogues</h1>
-    <p class="lede">A writing-room engine for political dialogues. Six thinkers to start. Extensible from there.</p>
+    <p class="lede">A writing-room engine for political dialogues. Audio episodes, video dialogues, and the thinker roster that voices them.</p>
   </header>
 
   <main>
-{cards}
+    <h2 class="section">Audio Episodes</h2>
+{audio_cards}
+
+    <h2 class="section">Video Dialogues</h2>
+{video_cards}
   </main>
 
   <footer>
@@ -123,14 +212,34 @@ PAGE = """\
 
 
 def render() -> None:
-    entries = collect()
-    cards = []
-    for e in entries:
+    video_entries = collect_videos()
+    audio_entries = collect_audio()
+
+    audio_cards = []
+    for e in audio_entries:
+        wf = e.get("waveform")
+        wf_link = AUDIO_WAVEFORM_LINK.format(dirname=e["dir"], waveform=wf) if wf else ""
+        audio_cards.append(AUDIO_CARD.format(
+            title=e.get("title", e.get("slug", "")),
+            subtitle=e.get("subtitle", ""),
+            cast=" · ".join(c.title() for c in e.get("cast", [])),
+            runtime=_format_runtime(e.get("runtime_seconds", 0)),
+            chapters=len(e.get("chapters", [])),
+            dirname=e["dir"],
+            mp3=e.get("mp3", ""),
+            waveform_link=wf_link,
+            sources_block=_render_sources(e.get("sources", [])),
+        ))
+    audio_body = "\n".join(audio_cards) if audio_cards \
+        else "<p><em>No audio episodes yet. Add one under <code>episodes/</code>.</em></p>"
+
+    video_cards = []
+    for e in video_entries:
         video_links = "\n    ".join(
             VIDEO_LINK.format(dirname=e["dir"], path=path, label=asp)
             for asp, path in e.get("videos", {}).items()
         ) or "<em>No videos rendered yet.</em>"
-        cards.append(CARD_TPL.format(
+        video_cards.append(VIDEO_CARD.format(
             title=e.get("title", e["slug"]),
             subtitle=e.get("subtitle", ""),
             thinkers=" · ".join(t.title() for t in e.get("thinkers", [])),
@@ -139,9 +248,14 @@ def render() -> None:
             video_links=video_links,
             dirname=e["dir"],
         ))
-    body = "\n".join(cards) if cards else "<p><em>No dialogues yet. Add one under <code>dialogues/</code>.</em></p>"
-    OUT.write_text(PAGE.format(cards=body), encoding="utf-8")
-    print(f"wrote {OUT} with {len(entries)} dialogue(s)")
+    video_body = "\n".join(video_cards) if video_cards \
+        else "<p><em>No video dialogues yet. Add one under <code>dialogues/</code>.</em></p>"
+
+    OUT.write_text(
+        PAGE.format(audio_cards=audio_body, video_cards=video_body),
+        encoding="utf-8",
+    )
+    print(f"wrote {OUT} · {len(audio_entries)} audio · {len(video_entries)} video")
 
 
 if __name__ == "__main__":

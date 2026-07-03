@@ -29,6 +29,15 @@ end_card: |
 
 # --- The dialogue itself -------------------------------------------------
 
+# Optional sources block — rendered into transcript.md, embed.html, and
+# the show-notes caption. Each source is either a plain string or a dict.
+sources:
+  - title: RNZ — New US ambassador would like chance to work on NZ's nuclear policy
+    url: https://www.rnz.co.nz/news/politics/660035/
+    note: Lillian Hanly, 3 July 2026
+  - title: The Kiwi Dialectic
+    url: https://kiwidialectic.substack.com
+
 acts:
   - title: I. Diagnosis
     # Optional per-act cold open; also uses narrator_voice.
@@ -88,7 +97,21 @@ acts:
 | `acts`          | yes      | 1+ acts. Each has `title`, optional `intro`, and `turns`. |
 | `turns[].thinker`| yes     | Any slug present in `cast`. |
 | `turns[].say`   | yes      | Text passed to TTS. May include delivery tags like `[pauses]`, `[emphatic]`. |
-| `turns[].tail_ms`| no      | Silence after this turn (default 400ms). |
+| `turns[].tail_ms`| no      | Silence after this turn (default 400ms). Note: with the multi-speaker renderer, per-turn tails inside an act are absorbed into the single dialogue mp3 — use natural pauses in `say` (ellipses, `[pauses]`) for pacing. |
+| `sources`       | no       | List of strings or `{title, url, note}` dicts. Rendered in transcript, embed, and show-notes caption. |
+
+## Rendering model — voice consistency
+
+The renderer groups **all `turns` inside a single act** into ONE Gemini
+multi-speaker synthesis call. That locks the two thinker voices for the whole
+act — no line-by-line intonation drift. Narrator cues (cold_open, act intros,
+end_card) stay as separate single-voice calls. This means:
+
+* An act must use at most **2 distinct voices**. Gemini's multi-speaker mode is
+  capped there.
+* Chapters in `metadata.json` are **act-level**, not per-line.
+* Add pacing inside a turn using ellipses, em-dashes, and `[pauses]` tags
+  rather than relying on `tail_ms` between turns inside an act.
 
 ## Output layout
 

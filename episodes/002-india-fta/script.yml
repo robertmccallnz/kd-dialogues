@@ -10,6 +10,19 @@ cast:
 
 narrator_voice: kore
 
+sources:
+  - title: MFAT — New Zealand–India Comprehensive Economic Partnership Agreement
+    url: https://www.mfat.govt.nz/en/trade/free-trade-agreements/india
+    note: signed 27 April 2026, New Delhi
+  - title: NZ Parliament — first reading Hansard
+    url: https://bills.parliament.nz
+    note: 25 June 2026, 93 to 29
+  - title: Paulo Freire, Pedagogy of the Oppressed (1968)
+    note: chapters 2 and 3 — banking vs. dialogical education
+  - title: The Kiwi Dialectic
+    url: https://kiwidialectic.substack.com
+    note: full course notes and further reading
+
 cold_open: |
   From The Kiwi Dialectic — kd-dialogues. Episode two.
   On the 27th of April 2026, in New Delhi, New Zealand and India signed a

@@ -25,6 +25,15 @@
       letter-spacing: 0.02em;
     }
     header p.lede { margin: 0 0 2.5rem; font-style: italic; color: #4a4238; }
+    h2.section {
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin: 2.4rem 0 0.6rem;
+      color: var(--brick);
+      border-bottom: 1px solid var(--ochre);
+      padding-bottom: 0.3rem;
+    }
     .card {
       border-top: 2px solid var(--ochre);
       padding: 1.4rem 0 1.6rem;
@@ -50,6 +59,11 @@
       font-size: 0.78rem;
       color: #7a6f5c;
     }
+    details.sources { margin: 0.6rem 0 0.2rem; font-size: 0.9rem; }
+    details.sources summary { cursor: pointer; color: var(--brick); }
+    details.sources ul { margin: 0.4rem 0 0 1.2rem; padding: 0; }
+    details.sources a { color: var(--ink); }
+    .src-note { color: #4a4238; font-style: italic; }
     footer { margin-top: 3rem; font-size: 0.85rem; color: #7a6f5c; }
     footer a { color: var(--brick); }
   </style>
@@ -57,10 +71,70 @@
 <body>
   <header>
     <h1>kd-dialogues</h1>
-    <p class="lede">A writing-room engine for political dialogues. Six thinkers to start. Extensible from there.</p>
+    <p class="lede">A writing-room engine for political dialogues. Audio episodes, video dialogues, and the thinker roster that voices them.</p>
   </header>
 
   <main>
+    <h2 class="section">Audio Episodes</h2>
+<article class="card">
+  <h2>Housing and the shape of the state</h2>
+  <p class="subtitle">Gramsci and Kropotkin, on why rent has always been political.</p>
+  <p class="thinkers">Gramsci · Kropotkin</p>
+  <p class="runtime">3:30 · 11 chapters</p>
+  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
+    <source src="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3" type="audio/mpeg">
+    Your browser cannot play this audio.
+    <a href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">Download the mp3</a>.
+  </audio>
+  <div class="videos">
+    <a class="video-link" href="../episodes/001-housing-and-hegemony/housing-and-hegemony.mp3">MP3</a>
+    <a class="video-link" href="../episodes/001-housing-and-hegemony/transcript.md">Transcript</a>
+    <a class="video-link" href="../episodes/001-housing-and-hegemony/housing-and-hegemony.waveform.png">Waveform</a>
+  </div>
+  
+  <p class="path">episodes/001-housing-and-hegemony/</p>
+</article>
+
+<article class="card">
+  <h2>A once-in-a-generation opportunity?</h2>
+  <p class="subtitle">Luxon and Freire on the New Zealand-India free trade agreement.</p>
+  <p class="thinkers">Luxon · Freire</p>
+  <p class="runtime">6:54 · 8 chapters</p>
+  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
+    <source src="../episodes/002-india-fta/india-fta.mp3" type="audio/mpeg">
+    Your browser cannot play this audio.
+    <a href="../episodes/002-india-fta/india-fta.mp3">Download the mp3</a>.
+  </audio>
+  <div class="videos">
+    <a class="video-link" href="../episodes/002-india-fta/india-fta.mp3">MP3</a>
+    <a class="video-link" href="../episodes/002-india-fta/transcript.md">Transcript</a>
+    <a class="video-link" href="../episodes/002-india-fta/india-fta.waveform.png">Waveform</a>
+  </div>
+  <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.mfat.govt.nz/en/trade/free-trade-agreements/india">MFAT — New Zealand–India Comprehensive Economic Partnership Agreement</a> <span class="src-note">— signed 27 April 2026, New Delhi</span></li><li><a href="https://bills.parliament.nz">NZ Parliament — first reading Hansard</a> <span class="src-note">— 25 June 2026, 93 to 29</span></li><li>Paulo Freire, Pedagogy of the Oppressed (1968) <span class="src-note">— chapters 2 and 3 — banking vs. dialogical education</span></li><li><a href="https://kiwidialectic.substack.com">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
+  <p class="path">episodes/002-india-fta/</p>
+</article>
+
+<article class="card">
+  <h2>The boogeyman with the DeLorean</h2>
+  <p class="subtitle">Novelly and Bakunin on nuclear-free New Zealand.</p>
+  <p class="thinkers">Novelly · Bakunin</p>
+  <p class="runtime">7:45 · 8 chapters</p>
+  <audio controls preload="metadata" style="width:100%;margin:0.4rem 0">
+    <source src="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3" type="audio/mpeg">
+    Your browser cannot play this audio.
+    <a href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">Download the mp3</a>.
+  </audio>
+  <div class="videos">
+    <a class="video-link" href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.mp3">MP3</a>
+    <a class="video-link" href="../episodes/003-nuclear-boogeyman/transcript.md">Transcript</a>
+    <a class="video-link" href="../episodes/003-nuclear-boogeyman/nuclear-boogeyman.waveform.png">Waveform</a>
+  </div>
+  <details class="sources"><summary>Sources &amp; further reading</summary><ul><li><a href="https://www.rnz.co.nz/news/politics/660035/new-us-ambassador-would-like-chance-to-work-on-new-zealand-s-nuclear-policy">RNZ — New US ambassador would like chance to work on NZ's nuclear policy</a> <span class="src-note">— Lillian Hanly, 3 July 2026 — all Novelly quotes verbatim</span></li><li><a href="https://thespinoff.co.nz/politics/27-05-2026/us-senate-confirms-donald-trumps-pick-for-ambassador-to-nz-billionaire-jared-novelly">The Spinoff — US Senate confirms Trump's pick for ambassador to NZ</a> <span class="src-note">— background on Novelly's Apex Oil family and Republican donor history</span></li><li><a href="https://projects.propublica.org/trump-team-financial-disclosures/appointees/novelly-jared/">ProPublica — Trump team financial disclosures, Novelly Jared</a></li><li><a href="https://www.stlmag.com/business/jared-novelly-basketball-australia/">St Louis Magazine — Novelly's push to unseat Kestelman</a> <span class="src-note">— March 2025 corporate raid on Illawarra Hawks / NBL</span></li><li><a href="https://law.justia.com/cases/federal/appellate-courts/F2/960/728/">Justia — Apex Oil Chapter 11 appeals (960 F.2d 728)</a> <span class="src-note">— 1987 bankruptcy; self-dealing allegations unproven; creditors paid 64–86¢/$</span></li><li><a href="https://www.legislation.govt.nz/act/public/1987/0086/latest/DLM115116.html">Nuclear Free New Zealand Act 1987</a> <span class="src-note">— the law Novelly wants "the chance to work on"</span></li><li>Bakunin, Statism and Anarchy (1873) <span class="src-note">— chapter on the alliance of church, state, and capital</span></li><li><a href="https://kiwidialectic.substack.com">The Kiwi Dialectic</a> <span class="src-note">— full course notes and further reading</span></li></ul></details>
+  <p class="path">episodes/003-nuclear-boogeyman/</p>
+</article>
+
+
+    <h2 class="section">Video Dialogues</h2>
 <article class="card">
   <h2>SIX THINKERS: DIALOGUES</h2>
   <p class="subtitle">A writing-room course from The Kiwi Dialectic.</p>

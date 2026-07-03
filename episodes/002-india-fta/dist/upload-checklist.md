@@ -1,6 +1,6 @@
 # Upload Checklist — A once-in-a-generation opportunity?
 
-Runtime: 6:31
+Runtime: 6:54
 Cast: Luxon, Freire
 
 ## Substack (recommended primary surface)

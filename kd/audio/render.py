@@ -6,6 +6,14 @@ Usage:
     python -m kd.audio.render episodes/... --skip-tts             # reuse audio/ cache
     python -m kd.audio.render episodes/... --transcript           # also write transcript.md
     python -m kd.audio.render episodes/... --no-waveform          # skip waveform.png
+
+The renderer groups all `turn` cues inside a single act into ONE Gemini
+multi-speaker synthesis call. That locks the two thinker voices for the whole
+act — no per-line drift in accent/intonation. Narrator cues (cold_open, act
+intros, end_card) stay as single-voice `.txt` calls.
+
+Gemini TTS supports max 2 unique voices per dialogue, which matches our
+one-on-one dialogue pattern.
 """
 
 from __future__ import annotations
@@ -13,7 +21,7 @@ import argparse, json, subprocess, sys
 from pathlib import Path
 import yaml
 
-from ..tts import synth_line
+from ..tts import synth_line, synth_dialogue
 from ..render_common import probe_duration
 
 
@@ -35,70 +43,96 @@ def load_thinker(slug: str) -> dict:
     return data
 
 
+def _slugify(s: str) -> str:
+    return "".join(c if c.isalnum() else "-" for c in s.strip().lower()).strip("-") or "seg"
+
+
 def resolve(script_path: Path) -> dict:
-    """Load script.yml, validate cast, expand turns into an ordered timeline."""
+    """Load script.yml, validate cast, expand into an ordered list of cues.
+
+    Cue kinds:
+      - "narrator": single-voice .txt render (cold_open, act intro, end_card)
+      - "dialogue": multi-voice .json render (all consecutive turns in one act)
+    """
     script = yaml.safe_load(script_path.read_text())
 
     cast = script.get("cast") or []
     if not (2 <= len(cast) <= 6):
         raise SystemExit(f"[audio] cast must have 2–6 thinkers, got {len(cast)}")
 
-    # Resolve every cast member's voice profile up front
     profiles = {slug: load_thinker(slug) for slug in cast}
     narrator_voice = script.get("narrator_voice", DEFAULT_NARRATOR_VOICE)
 
-    # Build a flat ordered list of "cues" (narrator or thinker lines).
-    # Each cue: {kind, voice, say, tail_ms, label, act_title}
     cues: list[dict] = []
-    counter = [0]  # mutable counter for stable file naming
+    counter = [0]
 
-    def add_cue(kind: str, voice: str, say: str, tail_ms: int, label: str, act_title: str | None):
+    def add_narrator(say: str, tail_ms: int, label: str, act_title: str | None):
         counter[0] += 1
         cues.append({
             "index": counter[0],
-            "kind": kind,           # "narrator" | "turn"
-            "voice": voice,
+            "kind": "narrator",
+            "voice": narrator_voice,
             "say": say.strip(),
             "tail_ms": tail_ms,
-            "label": label,          # for filename + transcript
+            "label": label,
             "act_title": act_title,
+            "turns": None,
+        })
+
+    def add_dialogue(turns: list[dict], tail_ms: int, act_title: str):
+        counter[0] += 1
+        # Enforce 2-voice cap here for a clearer error.
+        voices = {t["voice"] for t in turns}
+        if len(voices) > 2:
+            raise SystemExit(
+                f"[audio] act '{act_title}' uses {len(voices)} voices ({sorted(voices)}); "
+                f"Gemini multi-speaker mode supports max 2. Split the act."
+            )
+        cues.append({
+            "index": counter[0],
+            "kind": "dialogue",
+            "voice": ",".join(sorted(voices)),  # for logging only
+            "say": None,
+            "tail_ms": tail_ms,
+            "label": f"act-{_slugify(act_title)}",
+            "act_title": act_title,
+            "turns": turns,   # list of {"voice","thinker","text","tail_ms"}
         })
 
     if script.get("cold_open"):
-        add_cue("narrator", narrator_voice, script["cold_open"], COLD_OPEN_TAIL_MS,
-                "cold-open", None)
+        add_narrator(script["cold_open"], COLD_OPEN_TAIL_MS, "cold-open", None)
 
     for act in script["acts"]:
         act_title = act.get("title", "")
         if act.get("intro"):
-            add_cue("narrator", narrator_voice, act["intro"], DEFAULT_TAIL_MS,
-                    f"act-intro-{_slugify(act_title)}", act_title)
-        for i, t in enumerate(act.get("turns", []), start=1):
-            slug = t["thinker"]
-            if slug not in profiles:
-                raise SystemExit(f"[audio] turn references '{slug}' but it's not in the cast")
-            add_cue("turn",
-                    voice=profiles[slug]["tts_voice"],
-                    say=t["say"],
-                    tail_ms=t.get("tail_ms", DEFAULT_TAIL_MS),
-                    label=f"{slug}-{i:02d}",
-                    act_title=act_title)
-        # Extra breath between acts
-        if cues:
-            cues[-1]["tail_ms"] = max(cues[-1]["tail_ms"], ACT_GAP_MS)
+            add_narrator(act["intro"], DEFAULT_TAIL_MS,
+                         f"act-intro-{_slugify(act_title)}", act_title)
+
+        # Collect this act's turns into a single dialogue cue.
+        raw_turns = act.get("turns", [])
+        if raw_turns:
+            turns = []
+            for t in raw_turns:
+                slug = t["thinker"]
+                if slug not in profiles:
+                    raise SystemExit(
+                        f"[audio] turn references '{slug}' but it's not in the cast"
+                    )
+                turns.append({
+                    "voice": profiles[slug]["tts_voice"],
+                    "thinker": slug,
+                    "text": t["say"].strip(),
+                    "tail_ms": t.get("tail_ms", DEFAULT_TAIL_MS),
+                })
+            add_dialogue(turns, tail_ms=ACT_GAP_MS, act_title=act_title)
 
     if script.get("end_card"):
-        add_cue("narrator", narrator_voice, script["end_card"], DEFAULT_TAIL_MS,
-                "end-card", None)
+        add_narrator(script["end_card"], DEFAULT_TAIL_MS, "end-card", None)
 
     script["_cues"] = cues
     script["_profiles"] = profiles
     script["_narrator_voice"] = narrator_voice
     return script
-
-
-def _slugify(s: str) -> str:
-    return "".join(c if c.isalnum() else "-" for c in s.strip().lower()).strip("-") or "seg"
 
 
 def synthesise_cues(cues: list[dict], audio_dir: Path) -> None:
@@ -111,14 +145,24 @@ def synthesise_cues(cues: list[dict], audio_dir: Path) -> None:
         if out.exists():
             print(f"  (cached) {fname}")
             continue
-        print(f"  synth {fname}  voice={c['voice']}")
-        synth_line(c["say"], c["voice"], out)
+        if c["kind"] == "narrator":
+            print(f"  synth {fname}  narrator={c['voice']}")
+            synth_line(c["say"], c["voice"], out)
+        else:  # dialogue
+            print(f"  synth {fname}  dialogue voices={c['voice']} ({len(c['turns'])} turns)")
+            dialogue_input = [
+                {"speaker": t["voice"], "text": t["text"]}
+                for t in c["turns"]
+            ]
+            synth_dialogue(dialogue_input, out)
 
 
-def stitch(cues: list[dict], out_mp3: Path, metadata: dict) -> float:
-    """
-    Concatenate every cue mp3 with a per-cue tail silence, then re-encode to
-    an MP3 with ID3 tags. Returns total runtime in seconds.
+def stitch(cues: list[dict], out_mp3: Path, metadata: dict) -> tuple[float, list[dict]]:
+    """Concatenate cue mp3s with tail silences, encode to ID3-tagged MP3.
+
+    Also returns per-cue "beats" for chapter markers. For dialogue cues, the
+    beat spans the whole act (since multi-speaker mode gives us one file);
+    the transcript still shows every line, but chapters are act-level.
     """
     concat_parts: list[str] = []
     filters: list[str] = []
@@ -140,12 +184,10 @@ def stitch(cues: list[dict], out_mp3: Path, metadata: dict) -> float:
     filters.append(f"{concat_inputs}concat=n={len(cues)}:v=0:a=1[out]")
     fg = ";".join(filters)
 
-    # Build ID3 tag args
     tag_args: list[str] = []
     if metadata.get("title"):    tag_args += ["-metadata", f"title={metadata['title']}"]
     if metadata.get("subtitle"): tag_args += ["-metadata", f"album={metadata['subtitle']}"]
     authors = metadata.get("authors") or "The Kiwi Dialectic"
-    # authors may be a string or a list — support both
     if isinstance(authors, list):
         artist = ", ".join(authors) if authors else "The Kiwi Dialectic"
     else:
@@ -169,6 +211,28 @@ def stitch(cues: list[dict], out_mp3: Path, metadata: dict) -> float:
     return total_ms / 1000, beats
 
 
+def _sources_lines(script: dict) -> list[str]:
+    src = script.get("sources") or []
+    if not src:
+        return []
+    out = ["", "## Sources & further reading", ""]
+    for s in src:
+        if isinstance(s, str):
+            out.append(f"- {s}")
+        elif isinstance(s, dict):
+            title = s.get("title") or s.get("name") or s.get("url", "source")
+            url = s.get("url", "")
+            note = s.get("note")
+            if url:
+                line = f"- [{title}]({url})"
+            else:
+                line = f"- {title}"
+            if note:
+                line += f" — {note}"
+            out.append(line)
+    return out
+
+
 def write_metadata(script: dict, beats: list[dict], runtime_s: float,
                    mp3_path: Path, waveform_path: Path | None, out_dir: Path) -> Path:
     md = {
@@ -180,7 +244,7 @@ def write_metadata(script: dict, beats: list[dict], runtime_s: float,
         "mp3": str(mp3_path.relative_to(out_dir)),
         "waveform": str(waveform_path.relative_to(out_dir)) if waveform_path else None,
         "acts": [a.get("title") for a in script.get("acts", [])],
-        # Chapter markers: one per cue, in seconds
+        "sources": script.get("sources", []),
         "chapters": [
             {
                 "start": b["start_ms"] / 1000,
@@ -199,7 +263,31 @@ def write_metadata(script: dict, beats: list[dict], runtime_s: float,
 
 def write_embed(script: dict, mp3_path: Path, waveform_path: Path | None, out_dir: Path) -> Path:
     slug = script["slug"]
-    poster_attr = f'poster="{waveform_path.name}" ' if waveform_path else ""
+    sources_html = ""
+    src = script.get("sources") or []
+    if src:
+        items = []
+        for s in src:
+            if isinstance(s, str):
+                items.append(f"<li>{s}</li>")
+            elif isinstance(s, dict):
+                title = s.get("title") or s.get("name") or s.get("url", "source")
+                url = s.get("url", "")
+                note = s.get("note", "")
+                if url:
+                    body = f'<a href="{url}">{title}</a>'
+                else:
+                    body = title
+                if note:
+                    body += f' — <span style="color:#4a4238">{note}</span>'
+                items.append(f"<li>{body}</li>")
+        sources_html = (
+            '<details style="margin-top:10px;font-size:0.9rem">'
+            '<summary style="cursor:pointer;color:#963c28">Sources &amp; further reading</summary>'
+            f'<ul style="margin:6px 0 0 1.2rem;padding:0">{"".join(items)}</ul>'
+            '</details>'
+        )
+
     html = f"""<!-- kd-dialogues audio embed :: {slug} -->
 <!-- Replace the src below with a public URL to the mp3, e.g. a GitHub raw URL. -->
 <figure style="max-width:640px;margin:1.4rem auto;font-family:'Noto Serif',Georgia,serif;color:#1c1816">
@@ -211,6 +299,7 @@ def write_embed(script: dict, mp3_path: Path, waveform_path: Path | None, out_di
   <figcaption style="font-style:italic;text-align:center;color:#4a4238;margin-top:6px">
     {script.get('title','')} — {script.get('subtitle','')}
   </figcaption>
+  {sources_html}
 </figure>
 """
     p = out_dir / "embed.html"
@@ -219,17 +308,21 @@ def write_embed(script: dict, mp3_path: Path, waveform_path: Path | None, out_di
 
 
 def write_transcript(script: dict, beats: list[dict], out_dir: Path) -> Path:
+    """Rebuild readable transcript. Because dialogue cues render as a single
+    mp3, act-level turns share the act cue's start time; per-line timestamps
+    would be a lie without forced alignment, so we mark only the act boundary.
+    """
     lines: list[str] = [f"# {script.get('title','')}", ""]
     if script.get("subtitle"):
         lines += [f"_{script['subtitle']}_", ""]
     if script.get("cast"):
         lines += [f"**Cast:** {', '.join(script['cast'])}  ", ""]
 
-    # Rebuild the readable transcript from script + beats (for timing)
-    beat_idx = 0
     def _fmt(ms: int) -> str:
         s = ms // 1000
         return f"{s//60:02d}:{s%60:02d}"
+
+    beat_idx = 0
 
     if script.get("cold_open"):
         b = beats[beat_idx]; beat_idx += 1
@@ -240,14 +333,19 @@ def write_transcript(script: dict, beats: list[dict], out_dir: Path) -> Path:
         if act.get("intro"):
             b = beats[beat_idx]; beat_idx += 1
             lines += [f"**[{_fmt(b['start_ms'])}] Narrator**", "", act["intro"].strip(), ""]
-        for t in act.get("turns", []):
+        # Dialogue cue for the whole act
+        if act.get("turns"):
             b = beats[beat_idx]; beat_idx += 1
-            lines += [f"**[{_fmt(b['start_ms'])}] {t['thinker'].title()}**", "",
-                      t["say"].strip(), ""]
+            act_start = _fmt(b["start_ms"])
+            lines += [f"_Dialogue begins [{act_start}]_", ""]
+            for t in act.get("turns", []):
+                lines += [f"**{t['thinker'].title()}**", "", t["say"].strip(), ""]
 
     if script.get("end_card"):
         b = beats[beat_idx]; beat_idx += 1
         lines += [f"**[{_fmt(b['start_ms'])}] Narrator**", "", script["end_card"].strip(), ""]
+
+    lines += _sources_lines(script)
 
     p = out_dir / "transcript.md"
     p.write_text("\n".join(lines), encoding="utf-8")
@@ -277,7 +375,6 @@ def main() -> None:
         print("[audio] synthesising cues...")
         synthesise_cues(script["_cues"], audio_dir)
     else:
-        # attach mp3 paths so stitch() can read them
         for c in script["_cues"]:
             c["mp3"] = audio_dir / f"{c['index']:03d}-{c['label']}.mp3"
             if not c["mp3"].exists():

@@ -16,12 +16,14 @@ an opportunity, comrades, for whom?
 
 ## I. Diagnosis
 
-**[00:34] Narrator**
+**[00:26] Narrator**
 
 Act one. The Prime Minister opens with the pitch he has now given
 in New Delhi, in Auckland, and to Parliament.
 
-**[00:42] Luxon**
+_Dialogue begins [00:36]_
+
+**Luxon**
 
 [calm] Look — this is a once-in-a-generation opportunity for
 New Zealand. Genuinely. India is now the most populous country
@@ -36,7 +38,7 @@ creating jobs here at home, and lifting incomes. This is
 another example of what I mean when I say National is fixing
 the basics and building the future.
 
-**[01:33] Freire**
+**Freire**
 
 [pauses] Prime Minister — thank you. Let us... together...
 read what you have just said. You have counted the tariffs.
@@ -54,11 +56,13 @@ technicality. That is the whole political question.
 
 ## II. Disagreement
 
-**[02:37] Narrator**
+**[02:38] Narrator**
 
 Act two. The exclusion of dairy — and the price of the deal.
 
-**[02:42] Luxon**
+_Dialogue begins [02:43]_
+
+**Luxon**
 
 [calm] Well look — with respect — a good deal is preferable
 to a perfect deal. Right? You've got to be pragmatic here.
@@ -72,7 +76,7 @@ of the fastest-growing economies on the planet. At the end
 of the day, you've got to chunk it down, execute against the
 plan, and back our businesses to compete.
 
-**[03:21] Freire**
+**Freire**
 
 [pauses] Yes. Yes — pragmatism. It is a word I have heard
 many times, always spoken by the person for whom the
@@ -91,12 +95,14 @@ not being difficult, comrade. They are reading the world.
 
 ## III. Proposal
 
-**[04:26] Narrator**
+**[04:44] Narrator**
 
 Act three. What would a dialogical trade policy actually look
 like?
 
-**[04:32] Luxon**
+_Dialogue begins [04:50]_
+
+**Luxon**
 
 [calm] Look — I hear you. I do. But we believe in open and
 predictable trade. We believe in international rules. We
@@ -109,7 +115,7 @@ on the tarmac. That is the world we are in. This
 agreement... this is delivery. That's what we said we would
 do — and that is what we've done.
 
-**[05:11] Freire**
+**Freire**
 
 [pauses] Prime Minister — I do not disagree that New Zealand
 must trade. Of course it must trade. Aotearoa is small, it
@@ -128,9 +134,17 @@ Because a trade agreement that has not been read by the
 people it will govern... is not an agreement. [pauses] It
 is a decree.
 
-**[06:12] Narrator**
+**[06:35] Narrator**
 
 You've been listening to A once-in-a-generation opportunity? — Luxon
 and Freire on the New Zealand-India free trade agreement.
 Transcript, sources and further reading at kd-dialogues on GitHub.
 Creative Commons, attribution, share alike. Ka kite anō.
+
+
+## Sources & further reading
+
+- [MFAT — New Zealand–India Comprehensive Economic Partnership Agreement](https://www.mfat.govt.nz/en/trade/free-trade-agreements/india) — signed 27 April 2026, New Delhi
+- [NZ Parliament — first reading Hansard](https://bills.parliament.nz) — 25 June 2026, 93 to 29
+- Paulo Freire, Pedagogy of the Oppressed (1968) — chapters 2 and 3 — banking vs. dialogical education
+- [The Kiwi Dialectic](https://kiwidialectic.substack.com) — full course notes and further reading

@@ -6,7 +6,7 @@
     "luxon",
     "freire"
   ],
-  "runtime_seconds": 391.17,
+  "runtime_seconds": 414.08,
   "mp3": "india-fta.mp3",
   "waveform": "india-fta.waveform.png",
   "acts": [
@@ -14,80 +14,80 @@
     "II. Disagreement",
     "III. Proposal"
   ],
+  "sources": [
+    {
+      "title": "MFAT \u2014 New Zealand\u2013India Comprehensive Economic Partnership Agreement",
+      "url": "https://www.mfat.govt.nz/en/trade/free-trade-agreements/india",
+      "note": "signed 27 April 2026, New Delhi"
+    },
+    {
+      "title": "NZ Parliament \u2014 first reading Hansard",
+      "url": "https://bills.parliament.nz",
+      "note": "25 June 2026, 93 to 29"
+    },
+    {
+      "title": "Paulo Freire, Pedagogy of the Oppressed (1968)",
+      "note": "chapters 2 and 3 \u2014 banking vs. dialogical education"
+    },
+    {
+      "title": "The Kiwi Dialectic",
+      "url": "https://kiwidialectic.substack.com",
+      "note": "full course notes and further reading"
+    }
+  ],
   "chapters": [
     {
       "start": 0.0,
-      "duration": 33.97,
+      "duration": 26.17,
       "kind": "narrator",
       "label": "cold-open",
       "act_title": null
     },
     {
-      "start": 34.67,
-      "duration": 7.73,
+      "start": 26.87,
+      "duration": 9.57,
       "kind": "narrator",
       "label": "act-intro-i--diagnosis",
       "act_title": "I. Diagnosis"
     },
     {
-      "start": 42.8,
-      "duration": 49.97,
-      "kind": "turn",
-      "label": "luxon-01",
+      "start": 36.84,
+      "duration": 120.49,
+      "kind": "dialogue",
+      "label": "act-i--diagnosis",
       "act_title": "I. Diagnosis"
     },
     {
-      "start": 93.47,
-      "duration": 63.17,
-      "kind": "turn",
-      "label": "freire-02",
-      "act_title": "I. Diagnosis"
-    },
-    {
-      "start": 157.54,
+      "start": 158.23,
       "duration": 4.89,
       "kind": "narrator",
       "label": "act-intro-ii--disagreement",
       "act_title": "II. Disagreement"
     },
     {
-      "start": 162.83,
-      "duration": 37.89,
-      "kind": "turn",
-      "label": "luxon-01",
+      "start": 163.52,
+      "duration": 119.93,
+      "kind": "dialogue",
+      "label": "act-ii--disagreement",
       "act_title": "II. Disagreement"
     },
     {
-      "start": 201.42,
-      "duration": 64.25,
-      "kind": "turn",
-      "label": "freire-02",
-      "act_title": "II. Disagreement"
-    },
-    {
-      "start": 266.57,
-      "duration": 5.57,
+      "start": 284.35,
+      "duration": 6.17,
       "kind": "narrator",
       "label": "act-intro-iii--proposal",
       "act_title": "III. Proposal"
     },
     {
-      "start": 272.54,
-      "duration": 38.45,
-      "kind": "turn",
-      "label": "luxon-01",
+      "start": 290.92,
+      "duration": 103.81,
+      "kind": "dialogue",
+      "label": "act-iii--proposal",
       "act_title": "III. Proposal"
     },
     {
-      "start": 311.69,
-      "duration": 59.57,
-      "kind": "turn",
-      "label": "freire-02",
-      "act_title": "III. Proposal"
-    },
-    {
-      "start": 372.16,
-      "duration": 18.61,
+      "start": 395.63,
+      "duration": 18.05,
       "kind": "narrator",
       "label": "end-card",
       "act_title": null

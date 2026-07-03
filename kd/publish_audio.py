@@ -129,6 +129,7 @@ CAPTION_TEMPLATES = {
         "A kd-dialogues audio round from The Kiwi Dialectic.\n"
         "Cast: {cast}.\n\n"
         "Chapters:\n{chapters}\n\n"
+        "Sources &amp; further reading:\n{sources}\n\n"
         "Full course + module notes: {course_url}\n"
         "Source + assets: {repo_url}\n\n"
         "CC BY-SA 4.0."
@@ -154,6 +155,25 @@ def _format_runtime(seconds: float) -> str:
     return f"{m}:{s:02d}"
 
 
+def _format_sources(meta: dict) -> str:
+    src = meta.get("sources") or []
+    if not src:
+        return "(none listed)"
+    lines = []
+    for s in src:
+        if isinstance(s, str):
+            lines.append(f"- {s}")
+        elif isinstance(s, dict):
+            title = s.get("title") or s.get("name") or s.get("url", "source")
+            url = s.get("url", "")
+            note = s.get("note")
+            line = f"- {title}: {url}" if url else f"- {title}"
+            if note:
+                line += f" ({note})"
+            lines.append(line)
+    return "\n".join(lines)
+
+
 def publish_export_pack(episode_dir: Path, meta: dict) -> None:
     """Write captions + a manifest + a checklist for hand-uploading."""
     dist = episode_dir / "dist"
@@ -172,6 +192,7 @@ def publish_export_pack(episode_dir: Path, meta: dict) -> None:
         "runtime": _format_runtime(meta.get("runtime_seconds", 0)),
         "cast": cast,
         "chapters": _format_chapters(meta),
+        "sources": _format_sources(meta),
         "course_url": course_url,
         "repo_url": repo_url,
     }

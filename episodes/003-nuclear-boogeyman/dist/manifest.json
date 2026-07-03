@@ -1,0 +1,26 @@
+{
+  "slug": "nuclear-boogeyman",
+  "title": "The boogeyman with the DeLorean",
+  "runtime_seconds": 464.56,
+  "surfaces": {
+    "substack": {
+      "mp3": "nuclear-boogeyman.mp3",
+      "embed": "embed.substack.html",
+      "caption": "captions/substack.txt"
+    },
+    "x": {
+      "mp3": "nuclear-boogeyman.mp3",
+      "waveform": "nuclear-boogeyman.waveform.png",
+      "caption": "captions/x.txt"
+    },
+    "website": {
+      "mp3": "nuclear-boogeyman.mp3",
+      "waveform": "nuclear-boogeyman.waveform.png",
+      "embed": "embed.html"
+    },
+    "notes": {
+      "transcript": "transcript.md",
+      "caption": "captions/notes.txt"
+    }
+  }
+}
