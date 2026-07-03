@@ -60,11 +60,16 @@ def infer_github_slug() -> tuple[str, str] | None:
         return None
     if not out:
         return None
-    # git@github.com:owner/repo.git  OR  https://github.com/owner/repo(.git)
+    # Handled shapes:
+    #   git@github.com:owner/repo.git
+    #   https://github.com/owner/repo(.git)
+    #   https://git-agent-proxy.perplexity.ai/owner/repo(.git)  (Perplexity sandbox)
     if out.startswith("git@github.com:"):
         slug = out.split(":", 1)[1]
     elif "github.com/" in out:
         slug = out.split("github.com/", 1)[1]
+    elif "git-agent-proxy.perplexity.ai/" in out:
+        slug = out.split("git-agent-proxy.perplexity.ai/", 1)[1]
     else:
         return None
     slug = slug.removesuffix(".git")

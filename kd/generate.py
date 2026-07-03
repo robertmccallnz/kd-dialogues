@@ -111,7 +111,7 @@ def write_embed_snippet(script: dict, out_dir: Path, videos: dict) -> Path:
             break
     fallback_src = preferred or f"{slug}-1x1.mp4"
     html = f"""<!-- Substack embed for kd-dialogues :: {slug} -->
-<!-- Replace {{VIDEO_URL}} with a public URL to the mp4 (e.g. https://raw.githubusercontent.com/<user>/kd-dialogues/main/dialogues/{slug}/video/{fallback_src}) -->
+<!-- Replace the src below with a public URL to the mp4, e.g. a GitHub raw URL. -->
 <video controls playsinline preload="metadata" style="width:100%;max-width:640px;background:#f5ecd8">
   <source src="{{VIDEO_URL}}" type="video/mp4" />
   Your browser cannot play the six-thinkers dialogue video.
