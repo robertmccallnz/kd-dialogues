@@ -1,9 +1,9 @@
 """
-Build the static GitHub Pages catalogue at site/index.html.
+Build the static GitHub Pages catalogue at docs/index.html.
 
 Reads dialogues/*/video/metadata.json and renders a cream-paper index page
 listing every dialogue in the repo. Zero build-time dependencies beyond stdlib
-and Jinja-free string formatting — this is on purpose so `python site/build_site.py`
+and Jinja-free string formatting — this is on purpose so `python docs/build_site.py`
 works out of the box.
 """
 
@@ -13,7 +13,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 DIALOGUES = REPO / "dialogues"
-OUT = REPO / "site" / "index.html"
+OUT = REPO / "docs" / "index.html"
 
 
 def collect() -> list[dict]:
