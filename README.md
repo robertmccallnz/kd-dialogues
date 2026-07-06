@@ -2,7 +2,7 @@
 
 A tiny YAML-driven engine that turns a written dialogue between political thinkers into three synchronised videos (16:9 / 9:16 / 1:1) with mixed voice tracks, then packages them for GitHub, Substack, YouTube, TikTok, Instagram, and X.
 
-Built from the *SIX THINKERS: DIALOGUES* promo for [The Kiwi Dialectic](https://kiwidialectic.substack.com). Extensible: drop a new figure into `thinkers/`, write a new `script.yml`, run one command.
+Built from the *SIX THINKERS: DIALOGUES* promo for [The Kiwi Dialectic](https://www.kiwidialectic.com/). Extensible: drop a new figure into `thinkers/`, write a new `script.yml`, run one command.
 
 ---
 

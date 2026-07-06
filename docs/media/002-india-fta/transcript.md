@@ -147,4 +147,4 @@ Creative Commons, attribution, share alike. Ka kite anō.
 - [MFAT — New Zealand–India Comprehensive Economic Partnership Agreement](https://www.mfat.govt.nz/en/trade/free-trade-agreements/india) — signed 27 April 2026, New Delhi
 - [NZ Parliament — first reading Hansard](https://bills.parliament.nz) — 25 June 2026, 93 to 29
 - Paulo Freire, Pedagogy of the Oppressed (1968) — chapters 2 and 3 — banking vs. dialogical education
-- [The Kiwi Dialectic](https://kiwidialectic.substack.com) — full course notes and further reading
+- [The Kiwi Dialectic](https://www.kiwidialectic.com/) — full course notes and further reading

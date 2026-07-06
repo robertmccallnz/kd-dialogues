@@ -218,4 +218,4 @@ attribution, share alike. Ka kite anō — and keep the harbour clean.
 - [Justia — Apex Oil Chapter 11 appeals (960 F.2d 728)](https://law.justia.com/cases/federal/appellate-courts/F2/960/728/) — 1987 bankruptcy; self-dealing allegations unproven; creditors paid 64–86¢/$
 - [Nuclear Free New Zealand Act 1987](https://www.legislation.govt.nz/act/public/1987/0086/latest/DLM115116.html) — the law Novelly wants "the chance to work on"
 - Bakunin, Statism and Anarchy (1873) — chapter on the alliance of church, state, and capital
-- [The Kiwi Dialectic](https://kiwidialectic.substack.com) — full course notes and further reading
+- [The Kiwi Dialectic](https://www.kiwidialectic.com/) — full course notes and further reading

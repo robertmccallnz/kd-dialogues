@@ -36,7 +36,7 @@ sources:
     url: https://www.rnz.co.nz/news/politics/660035/
     note: Lillian Hanly, 3 July 2026
   - title: The Kiwi Dialectic
-    url: https://kiwidialectic.substack.com
+    url: https://www.kiwidialectic.com/
 
 acts:
   - title: I. Diagnosis
